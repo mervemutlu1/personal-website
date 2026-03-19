@@ -1,26 +1,127 @@
-@import "tailwindcss";
+@import url('https://fonts.cdnfonts.com/css/w95fa');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --desktop-bg: #008080;
+  --win-bg: #C0C0C0;
+  --title-active-start: #000080;
+  --title-active-end: #1084d0;
+  --title-inactive: #808080;
+  --title-text: #FFFFFF;
+  --btn-face: #C0C0C0;
+  --text: #000000;
+  --selected-bg: #000080;
+  --selected-text: #FFFFFF;
+  --bevel-light: #FFFFFF;
+  --bevel-mid: #DFDFDF;
+  --bevel-dark: #808080;
+  --bevel-darkest: #000000;
+  --win95-font: 'W95FA', 'Pixelated MS Sans Serif', 'MS Sans Serif', Arial, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--win95-font);
+  font-size: 11px;
+  line-height: 1.3;
+  color: #000000;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+  font-smooth: never;
+  user-select: none;
+  cursor: default;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Win95 Bevel Utilities */
+.win95-raised {
+  border-top: 2px solid #FFFFFF;
+  border-left: 2px solid #FFFFFF;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #DFDFDF;
+}
+
+.win95-pressed {
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #FFFFFF;
+  border-bottom: 2px solid #FFFFFF;
+  box-shadow: inset 1px 1px 0 #000000;
+}
+
+.win95-sunken {
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #FFFFFF;
+  border-bottom: 2px solid #FFFFFF;
+  box-shadow: inset 1px 1px 0 #000000, inset -1px -1px 0 #DFDFDF;
+}
+
+.win95-window-frame {
+  border: 2px solid #000000;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #FFFFFF;
+}
+
+/* Window open animation */
+@keyframes win95-open {
+  from { transform: scale(0.94); opacity: 0.7; }
+  to   { transform: scale(1);    opacity: 1;   }
+}
+
+.win95-window-animate {
+  animation: win95-open 80ms ease-out forwards;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+::-webkit-scrollbar-track {
+  background: #C0C0C0;
+  border-top: 1px solid #808080;
+  border-left: 1px solid #808080;
+}
+::-webkit-scrollbar-thumb {
+  background: #C0C0C0;
+  border-top: 2px solid #FFFFFF;
+  border-left: 2px solid #FFFFFF;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #DFDFDF;
+  min-height: 20px;
+}
+::-webkit-scrollbar-button:single-button {
+  background: #C0C0C0;
+  border-top: 2px solid #FFFFFF;
+  border-left: 2px solid #FFFFFF;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  box-shadow: inset -1px -1px 0 #000000, inset 1px 1px 0 #DFDFDF;
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+::-webkit-scrollbar-corner {
+  background: #C0C0C0;
+}
+
+/* Allow text selection in content areas */
+.win95-selectable {
+  -webkit-user-select: text;
+  user-select: text;
+  cursor: text;
+}
+
+/* Selection highlight */
+::selection {
+  background: #000080;
+  color: #FFFFFF;
 }
