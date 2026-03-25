@@ -62,9 +62,10 @@ function renderInline(text: string, key: string | number) {
               background: '#f0f0ec',
               fontFamily: "'Courier New', Courier, monospace",
               fontSize: 13,
+              fontWeight: 500,
               padding: '2px 6px',
               borderRadius: 3,
-              color: '#333333',
+              color: '#c0392b',
             }}>
               {part.slice(1, -1)}
             </code>
@@ -217,6 +218,29 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
                   }}>
                     {renderInline(text, i)}
                   </div>
+                );
+              }
+
+              // ~~~ code block
+              if (trimmed.startsWith('~~~') && trimmed.endsWith('~~~') && trimmed.length > 6) {
+                const code = trimmed.slice(3, -3).replace(/^\n/, '');
+                return (
+                  <pre key={i} style={{
+                    background: '#1a1a1a',
+                    color: '#e8e8e8',
+                    fontFamily: "'Courier New', Courier, monospace",
+                    fontSize: 13,
+                    fontWeight: 500,
+                    lineHeight: 1.7,
+                    padding: '16px 20px',
+                    borderRadius: 4,
+                    borderLeft: '3px solid #555555',
+                    margin: '1.2rem 0',
+                    overflowX: 'auto',
+                    whiteSpace: 'pre',
+                  }}>
+                    {code}
+                  </pre>
                 );
               }
 
