@@ -1,9 +1,11 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { WindowManagerProvider } from '@/hooks/useWindowManager';
-import { Desktop } from './desktop/Desktop';
 import { Taskbar } from './taskbar/Taskbar';
+
+const Desktop = dynamic(() => import('./desktop/Desktop').then((m) => m.Desktop), { ssr: false });
 
 export function Win95Desktop() {
   return (
