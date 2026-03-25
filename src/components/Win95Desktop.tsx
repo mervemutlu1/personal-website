@@ -14,6 +14,7 @@ export function Win95Desktop() {
         style={{
           position: 'fixed',
           inset: 0,
+          minWidth: 800,
           background: '#008080',
           fontFamily: 'var(--win95-font)',
           fontSize: 11,

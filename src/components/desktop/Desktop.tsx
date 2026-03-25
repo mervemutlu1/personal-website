@@ -54,12 +54,9 @@ export function Desktop() {
     } catch {}
   }, []);
 
-  // Check for mobile
+  // Check for mobile once on mount — not on resize
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 800);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    setIsMobile(window.innerWidth < 800);
   }, []);
 
 
