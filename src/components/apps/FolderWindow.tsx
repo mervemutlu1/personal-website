@@ -21,7 +21,8 @@ function openFileWindow(
       app: 'explorer',
       appData: { folderId: entry.id },
       iconType: 'folder',
-      size: { width: 420, height: 320 },
+      size: { width: 720, height: 420 },
+      position: { x: 80, y: 40 },
     });
   } else {
     openWindow({
@@ -33,6 +34,105 @@ function openFileWindow(
       size: { width: 520, height: 380 },
     });
   }
+}
+
+interface PanelConfig {
+  title: string;
+  description: string;
+  meta: string[];
+  background: string;
+  dividerColor: string;
+}
+
+const PANEL_CONFIGS: Record<string, PanelConfig> = {
+  root: {
+    title: 'My Notes',
+    description: "Notes, experiments & things I'm figuring out.\nOpen a folder to see what's inside.",
+    meta: ['Created: 2026', 'By: Merve'],
+    background: '#b8b8b8',
+    dividerColor: '#808080',
+  },
+  craft: {
+    title: 'Craft',
+    description: "AI, design and vibe coding experiments.\n\nThings I built to learn. Most of them\nstarted as a question I couldn't answer.",
+    meta: ['Format: Build logs', 'Tools: Claude, Figma, Vercel'],
+    background: '#ffffff',
+    dividerColor: '#c0c0c0',
+  },
+  growth: {
+    title: 'Growth',
+    description: "Writing on mindset, habits, and how\nto think better.\n\nPublished on Medium. Some of these\nhit thousands of readers.",
+    meta: ['Platform: Medium', 'Status: Top Writer'],
+    background: '#ffffff',
+    dividerColor: '#c0c0c0',
+  },
+};
+
+interface FolderPanelProps {
+  config: PanelConfig;
+}
+
+function FolderPanel({ config }: FolderPanelProps) {
+  return (
+    <>
+      <div
+        style={{
+          width: 160,
+          flexShrink: 0,
+          background: config.background,
+          padding: '16px 12px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          overflowY: 'auto',
+        }}
+      >
+        <div style={{ marginBottom: 10 }}>
+          {getIconComponent('folder', 48)}
+        </div>
+
+        <span style={{
+          fontFamily: 'var(--win95-font)',
+          fontSize: 16,
+          fontWeight: 'bold',
+          color: '#000000',
+        }}>
+          {config.title}
+        </span>
+
+        <span style={{
+          fontFamily: 'var(--win95-font)',
+          fontSize: 14,
+          color: '#444444',
+          lineHeight: 1.6,
+          marginTop: 8,
+          whiteSpace: 'pre-wrap',
+        }}>
+          {config.description}
+        </span>
+
+        <div style={{
+          width: '100%',
+          height: 1,
+          background: '#999999',
+          margin: '12px 0',
+          flexShrink: 0,
+        }} />
+
+        <span style={{
+          fontFamily: 'var(--win95-font)',
+          fontSize: 10,
+          color: '#666666',
+          lineHeight: 1.8,
+          whiteSpace: 'pre-wrap',
+        }}>
+          {config.meta.join('\n')}
+        </span>
+      </div>
+
+      <div style={{ width: 1, background: config.dividerColor, flexShrink: 0 }} />
+    </>
+  );
 }
 
 export function FolderWindow({ folderId }: FolderWindowProps) {
@@ -116,31 +216,45 @@ export function FolderWindow({ folderId }: FolderWindowProps) {
       <div
         style={{
           flex: 1,
-          overflow: 'auto',
-          background: '#FFFFFF',
+          display: 'flex',
+          overflow: 'hidden',
           margin: 2,
           borderTop: '2px solid #808080',
           borderLeft: '2px solid #808080',
           borderRight: '2px solid #FFFFFF',
           borderBottom: '2px solid #FFFFFF',
           boxShadow: 'inset 1px 1px 0 #000000, inset -1px -1px 0 #DFDFDF',
-          padding: 8,
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignContent: 'flex-start',
-          gap: 4,
+          background: '#FFFFFF',
         }}
-        onMouseDown={() => setSelected(null)}
       >
-        {children.map((entry) => (
-          <FolderIcon
-            key={entry.id}
-            entry={entry}
-            selected={selected === entry.id}
-            onSelect={() => setSelected(entry.id)}
-            onOpen={() => openFileWindow(entry, openWindow)}
-          />
-        ))}
+        {/* Left info panel */}
+        {PANEL_CONFIGS[folderId] && (
+          <FolderPanel config={PANEL_CONFIGS[folderId]} />
+        )}
+
+        {/* Icons area */}
+        <div
+          style={{
+            flex: 1,
+            overflow: 'auto',
+            padding: 8,
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignContent: 'flex-start',
+            gap: 24,
+          }}
+          onMouseDown={() => setSelected(null)}
+        >
+          {children.map((entry) => (
+            <FolderIcon
+              key={entry.id}
+              entry={entry}
+              selected={selected === entry.id}
+              onSelect={() => setSelected(entry.id)}
+              onOpen={() => openFileWindow(entry, openWindow)}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Status bar */}
@@ -174,11 +288,11 @@ function FolderIcon({ entry, selected, onSelect, onOpen }: FolderIconProps) {
   return (
     <div
       style={{
-        width: 80,
+        width: 96,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '4px 4px',
+        padding: 12,
         background: selected ? '#000080' : 'transparent',
         cursor: 'default',
       }}
@@ -186,19 +300,18 @@ function FolderIcon({ entry, selected, onSelect, onOpen }: FolderIconProps) {
       onDoubleClick={onOpen}
     >
       <div style={{ filter: selected ? 'brightness(1.5)' : 'none' }}>
-        {getIconComponent(entry.icon, 32)}
+        {getIconComponent(entry.icon, 48)}
       </div>
       <span
         style={{
-          marginTop: 3,
+          marginTop: 6,
           fontFamily: 'var(--win95-font)',
-          fontSize: 11,
+          fontSize: 14,
           color: selected ? '#FFFFFF' : '#000000',
           textAlign: 'center',
           wordBreak: 'break-word',
           lineHeight: 1.2,
-          maxWidth: 76,
-          textShadow: selected ? 'none' : 'none',
+          maxWidth: 92,
           background: selected ? '#000080' : 'transparent',
           padding: '0 2px',
         }}

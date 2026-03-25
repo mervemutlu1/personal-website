@@ -6,6 +6,7 @@ import { Window } from '../window/Window';
 import { FolderWindow } from '../apps/FolderWindow';
 import { NotepadWindow } from '../apps/NotepadWindow';
 import { DialogBox } from '../apps/DialogBox';
+import { RecycleBinWindow } from '../apps/RecycleBinWindow';
 import { Taskbar } from '../taskbar/Taskbar';
 import { useWindowManager } from '@/hooks/useWindowManager';
 
@@ -28,6 +29,9 @@ function WindowContent({ app, appData }: { app: string; appData: Record<string, 
   }
   if (app === 'notepad') {
     return <NotepadWindow fileId={appData.fileId as string} />;
+  }
+  if (app === 'recyclebin') {
+    return <RecycleBinWindow />;
   }
   if (app === 'dialog') {
     return null; // Handled differently
@@ -126,13 +130,13 @@ export function Desktop() {
       defaultPosition: { x: 18, y: 112 },
       onOpen: () =>
         openWindow({
-          id: 'dialog:bin',
+          id: 'recyclebin',
           title: 'Recycle Bin',
-          app: 'dialog',
-          appData: { variant: 'info', message: 'The Recycle Bin is empty.' },
+          app: 'recyclebin',
+          appData: {},
           iconType: 'bin',
-          position: { x: 140, y: 100 },
-          size: { width: 260, height: 120 },
+          position: { x: Math.max(0, Math.round((window.innerWidth - 400) / 2)), y: Math.max(0, Math.round((window.innerHeight - 300) / 2) - 28) },
+          size: { width: 400, height: 300 },
         }),
     },
     {
@@ -147,9 +151,32 @@ export function Desktop() {
       label: 'My Notes',
       iconType: 'folder',
       defaultPosition: { x: 18, y: 310 },
-      onOpen: () => openExplorer('root', 'My Notes'),
+      onOpen: () => openWindow({
+        id: 'explorer:root',
+        title: 'My Notes',
+        app: 'explorer',
+        appData: { folderId: 'root' },
+        iconType: 'folder',
+        position: { x: Math.max(0, Math.round((window.innerWidth - 720) / 2)), y: Math.max(0, Math.round((window.innerHeight - 420) / 2) - 28) },
+        size: { width: 720, height: 420 },
+      }),
     },
   ];
+
+  // Open My Notes on first load
+  useEffect(() => {
+    if (isMobile) return;
+    openWindow({
+      id: 'explorer:root',
+      title: 'My Notes',
+      app: 'explorer',
+      appData: { folderId: 'root' },
+      iconType: 'folder',
+      position: { x: Math.max(0, Math.round((window.innerWidth - 720) / 2)), y: Math.max(0, Math.round((window.innerHeight - 420) / 2) - 28) },
+      size: { width: 720, height: 420 },
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const focusedId = getFocusedId();
 

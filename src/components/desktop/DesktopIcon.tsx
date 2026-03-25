@@ -64,11 +64,11 @@ export function DesktopIcon({ id, label, iconType, position, onOpen, onPositionC
         position: 'absolute',
         left: position.x,
         top: position.y,
-        width: 72,
+        width: 84,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: 4,
+        padding: 6,
         cursor: 'default',
         userSelect: 'none',
       }}
@@ -82,8 +82,8 @@ export function DesktopIcon({ id, label, iconType, position, onOpen, onPositionC
       <div
         style={{
           position: 'relative',
-          width: 32,
-          height: 32,
+          width: 48,
+          height: 48,
         }}
       >
         <div
@@ -91,7 +91,7 @@ export function DesktopIcon({ id, label, iconType, position, onOpen, onPositionC
             opacity: selected ? 0.5 : 1,
           }}
         >
-          {getIconComponent(iconType, 32)}
+          {getIconComponent(iconType, 48)}
         </div>
         {selected && (
           <div
@@ -109,15 +109,15 @@ export function DesktopIcon({ id, label, iconType, position, onOpen, onPositionC
       {/* Label */}
       <span
         style={{
-          marginTop: 3,
+          marginTop: 5,
           fontFamily: 'var(--win95-font)',
-          fontSize: 11,
+          fontSize: 14,
           color: selected ? '#FFFFFF' : '#FFFFFF',
           textAlign: 'center',
           lineHeight: 1.2,
           background: selected ? '#000080' : 'transparent',
           padding: '1px 3px',
-          maxWidth: 70,
+          maxWidth: 82,
           wordBreak: 'break-word',
           textShadow: selected ? 'none' : '1px 1px 0 #000000',
         }}

@@ -30,314 +30,209 @@ export const CONTENT: FileEntry = {
       icon: 'folder',
       children: [
         {
-          id: 'craft:designing-for-clarity',
-          name: 'designing-for-clarity.txt',
+          id: 'craft:how-i-built-this',
+          name: 'how-i-built-this-without-writing-code.txt',
           type: 'file',
           icon: 'file-craft',
           date: 'Mar 2026',
-          description: 'A few heuristics I use when the interface looks fine but still feels hard to use.',
-          content: `DESIGNING FOR CLARITY
-=====================
+          description: 'A Windows 95 personal site, built with AI tools, zero coding experience, and one very long prompt.',
+          content: `HOW I BUILT THIS WITHOUT WRITING A SINGLE LINE OF CODE
+=======================================================
 Mar 2026
 
-A few heuristics I use when the interface
-looks "fine" but still feels hard to use.
+A Windows 95 personal site, built with AI tools,
+zero coding experience, and one very long prompt.
 
 ---
 
-There's a specific failure mode in design
-that I keep running into: the thing looks
-polished but people still struggle with it.
+I have never written a line of production code in my life.
+I'm a product designer. I know how interfaces should feel.
+I know what makes a button wrong. I do not know what a
+useEffect hook is, and until recently, I did not need to.
 
-The visual design is fine. The layout is clean.
-And yet. Something is off.
-
-After years of watching people use things I
-designed, I've collected a few signals that
-tell me clarity is missing before the usability
-tests confirm it.
-
-
-THE HEURISTICS
---------------
-
-1. THE "WHERE AM I?" TEST
-
-Cover the page title. Can you still tell
-what this screen is for? If not, the
-content isn't doing enough work.
-
-Navigation labels and titles are load-bearing.
-When I'm relying on position alone to orient
-people, I've lost.
-
-
-2. ONE QUESTION PER SCREEN
-
-Every screen has a job. The question is:
-what's the ONE thing I'm asking from the user?
-
-When I can't answer that in five words, the
-screen is doing too much.
-
-
-3. THE BORED TEENAGER TEST
-
-Imagine the most impatient user you know.
-Would they know what to tap in the first
-two seconds? Without reading anything?
-
-If not, the affordance isn't strong enough.
-
-
-4. SECOND-GUESS THE LABELS
-
-"Manage", "Settings", "Configure", "Advanced" —
-these words do almost no work. They describe
-categories, not actions. What is the user
-actually trying to DO?
-
-Replace the noun with a verb. See if it gets
-more specific.
-
-
-5. WHERE DO EYES GO FIRST?
-
-Close your eyes, then open them and look at
-the screen for half a second. Where did you
-look first? Is that where you SHOULD look?
-
-Visual hierarchy is the cheapest thing to get
-right and the easiest to get wrong.
-
+This site exists anyway. Here's how.
 
 ---
 
-None of these are new ideas. But I find myself
-running through them every time something
-feels off — and they usually point to the
-right thing to fix.
+## THE IDEA
 
-The common thread: clarity is about reducing
-the cognitive work required to understand what
-to do. Not about removing complexity, but about
-front-loading the right information at the right
-moment.
+I wanted a personal site that felt like a place —
+not a landing page, not a portfolio template.
+Something with a sense of space and navigation.
 
----
+The first thought was a desktop metaphor. Files, folders,
+windows you can open and close. An interface that treats
+content like a file system, not a scroll.
 
-  "Design is not just what it looks like and
-   feels like. Design is how it works."
-   — Some guy named Steve
+The second thought was: it has to be Windows 95.
 
-`,
-        },
-        {
-          id: 'craft:vibe-coding-experiment',
-          name: 'vibe-coding-experiment.txt',
-          type: 'file',
-          icon: 'file-craft',
-          date: 'Mar 2026',
-          description: 'A low-stakes build to learn something new without turning it into a project.',
-          content: `A TINY WEEKEND EXPERIMENT
-=========================
-Mar 2026
-
-A low-stakes build to learn something new —
-without turning it into a project.
+Not ironically. Sincerely. There's something honest about
+that aesthetic — beveled borders, teal desktop, pixel fonts.
+An interface that doesn't try to disappear. I wanted that.
 
 ---
 
-I gave myself a constraint: build something
-on Saturday morning. Something that doesn't
-matter. Something that can be abandoned without
-guilt.
+## STEP 1 — FINDING THE DESIGN SYSTEM
 
-The outcome was this Windows 95 website. (You're
-looking at it right now. Meta.)
+The first problem: I'm not building a Windows 95 design
+system from scratch. That would take weeks and a very
+different skill set.
 
+So I looked in Figma Community. Someone had already done it.
 
-THE CONSTRAINT
---------------
+→ Windows 95 Design System (Community)
+→ https://figma.com/community/file/WqRM3ioze2H6GhABxv7uWH
 
-Time box: 1 weekend.
-Stakes: zero.
-Goal: learn something, ship something.
+Every component. Every color. Every beveled border.
+The exact teal. The exact grey. The pixel font (W95FA
+by FontsArena). All of it, already built.
 
-No planning doc. No Notion board. No "roadmap".
-Just start.
-
-
-WHAT ACTUALLY HAPPENED
------------------------
-
-Hour 1-2: Set up Next.js, started making the
-teal desktop background. Got excited.
-
-Hour 3-4: Built the window drag system. This
-was the fun part. Pointer capture is a thing
-that exists. I learned this.
-
-Hour 5-6: Realized the bevel borders are
-everything. Spent too long on box-shadows.
-Zero regrets.
-
-Day 2: Content, icons, start menu. Started
-feeling like a real thing.
-
-
-WHAT I LEARNED
---------------
-
-1. Pointer capture is underrated. It lets you
-   drag without losing the pointer when it
-   leaves the element. Game changer for
-   anything drag-based.
-
-2. Win95's visual language is incredibly
-   systematic. Two pixels of bevel in the
-   right direction. That's it. That's the
-   whole thing.
-
-3. Constraints create creativity. "Make it
-   look exactly like 1995" is actually
-   freeing — no decisions about aesthetics,
-   just execution.
-
-4. Ship before it's ready. This site went
-   live before half the features worked.
-   That's fine.
-
-
-WHAT DIDN'T WORK
-----------------
-
-- MDX parsing: too much overhead for a
-  weekend. I hardcoded the content instead.
-  Not proud, not ashamed.
-
-- Animations: Win95 doesn't animate. I kept
-  adding things and then removing them.
-
-- The recycling bin: still doesn't do
-  anything. Authentic.
-
+>> I didn't design this site. I referenced it.
 
 ---
 
-The best part of a low-stakes experiment is
-that you can be honest about what you skipped.
-This is me being honest.
+## STEP 2 — CONNECTING FIGMA TO CLAUDE CODE VIA MCP
 
-The constraint worked. The thing exists.
-I learned things.
+This is where it gets interesting.
 
-Next weekend: something completely different.
+MCP stands for Model Context Protocol. It's a way to
+connect external tools — like Figma — directly to
+Claude Code, so Claude can see your design files
+while it writes the code.
 
-`,
-        },
-        {
-          id: 'craft:figma-to-code',
-          name: 'figma-to-code.txt',
-          type: 'file',
-          icon: 'file-craft',
-          date: 'Feb 2026',
-          description: 'My current workflow for going from Figma designs to working code with AI.',
-          content: `FIGMA TO CODE — MY WORKFLOW
-============================
-Feb 2026
+Setting up the Figma MCP:
 
-My current workflow for going from Figma
-designs to working code with AI.
+  1. Open Claude Code settings
+  2. Add MCP server → select Figma
+  3. Authenticate with your Figma account
+  4. Done
 
----
+Once connected, Claude Code can look at any Figma frame
+and use it as a reference while building. Not just a
+screenshot — it reads the actual component structure,
+color values, spacing, and layer names.
 
-I've been a product designer for 3 years.
-Six months ago I started writing code.
-
-Not because I had to. Because I got tired
-of the handoff being a lossy process.
-
-
-THE OLD WAY
------------
-
-Design in Figma.
-Write specs.
-Hand off to dev.
-Watch something slightly different get built.
-Go back to Figma.
-Repeat.
-
-
-THE NEW WAY
------------
-
-Design in Figma.
-Use AI to generate a first pass.
-Fix what the AI gets wrong.
-Ship it.
-
-Less meetings. More making.
-
-
-HOW IT ACTUALLY WORKS
-----------------------
-
-Step 1: Design the component in Figma.
-Keep it simple. Real components, not art.
-
-Step 2: Screenshot the component. Drop it
-into Claude or ChatGPT. Ask for a React
-component. Be specific about the stack.
-
-Step 3: The output is a starting point, not
-a finish line. AI is good at structure,
-bad at edge cases.
-
-Step 4: Fix the things that are wrong.
-Usually: spacing, states, accessibility.
-
-Step 5: Show it to someone. Does it feel
-like the design? If not, iterate.
-
-
-WHAT AI IS GOOD AT
-------------------
-
-- Getting the structure right
-- Writing boilerplate you'd hate to write
-- Suggesting things you didn't think of
-- Moving fast
-
-
-WHAT AI IS BAD AT
------------------
-
-- Understanding your design system
-- Edge cases and error states
-- Knowing when something is "off"
-- The last 10% that makes it feel right
-
-
-THE REAL LESSON
----------------
-
-AI doesn't replace the judgment call.
-It just moves the work closer to the call.
-
-The designer's job isn't to write code or
-even to spec code. It's to know what "right"
-looks like and close the gap between what
-exists and that.
-
-AI makes that gap smaller to close.
-The judgment is still yours.
+This meant I could say: "Use this design system as your
+visual reference" and point at the Figma file.
+Claude would actually understand what it was looking at.
 
 ---
 
-Still figuring this out. Will write more
-as the workflow evolves.
+## STEP 3 — THE PROMPT
+
+I didn't open a code editor. I opened Claude (claude.ai)
+and described what I wanted. We went back and forth.
+I explained the structure, the content categories,
+the window behavior, the aesthetic rules.
+
+Claude turned all of that into a single, detailed prompt
+to give to Claude Code. I gave it to Claude Code
+in the terminal. It started writing. I watched.
+
+---
+
+## STEP 4 — CLAUDE CODE SKILLS
+
+Before running the prompt, I installed two skills into
+Claude Code — think of them as permanent instructions
+that load every session:
+
+→ \`frontend-design\` (by Anthropic)
+  Tells Claude to make distinctive UI decisions
+  instead of generic AI defaults. No Inter font.
+  No purple gradients. Commit to an aesthetic.
+
+→ \`web-design-guidelines\` (by Vercel)
+  100+ rules for accessibility, UX best practices,
+  and interface quality. Runs as a background check
+  on everything Claude builds.
+
+Installing them took about 2 minutes:
+
+\`git clone https://github.com/anthropics/skills.git\`
+\`cp -r skills/skills/frontend-design ~/.claude/skills/\`
+
+\`git clone https://github.com/vercel-labs/agent-skills.git\`
+\`cp -r agent-skills/skills/web-design-guidelines ~/.claude/skills/\`
+
+After that, Claude Code reads them automatically.
+Every project. Every session.
+
+---
+
+## STEP 5 — ITERATION
+
+Claude Code built the first version in one session.
+It wasn't perfect. Nothing is.
+
+I kept a second window open — claude.ai — and used it
+to translate what I wanted into prompts for Claude Code.
+A feedback loop:
+
+  See something off → describe it here → get a prompt →
+  paste into Claude Code → see the change → repeat
+
+>> No debugging. No Stack Overflow.
+
+No understanding what a React component actually is
+at a structural level. Just describing what I wanted
+and refining.
+
+Some things I iterated on:
+  → Icon sizes (too small at first, bumped to 48px)
+  → My Notes folder opens automatically on load
+  → Close buttons weren't working (fixed)
+  → Blog post reader needed to be more readable
+     (kept Win95 chrome, redesigned the content area)
+
+---
+
+## STEP 6 — DEPLOYING TO VERCEL
+
+Getting a Next.js site live on Vercel is surprisingly
+straightforward — even if you've never deployed anything.
+
+  1. Push your project to GitHub
+     (Claude Code handles the git commands if you ask)
+
+  2. Go to vercel.com → New Project
+     Import your GitHub repository
+
+  3. Vercel detects Next.js automatically
+     No configuration needed
+
+  4. Click Deploy
+
+That's it. Vercel builds the project, assigns a URL,
+and every time you push new changes to GitHub,
+it redeploys automatically.
+
+The whole process took about 10 minutes the first time.
+
+---
+
+## WHAT I LEARNED
+
+This wasn't about learning to code.
+It was about learning to direct.
+
+>> Knowing what you want — specifically, visually, structurally — turns out to be most of the work.
+
+The prompt I gave \`Claude Code\` was detailed because I had
+a clear picture. Vague prompts get vague results.
+
+The Figma MCP connection changed something for me.
+Design and code stopped feeling like separate phases.
+I could point at a component and say "make it look like that"
+and it would. That's new. That matters.
+
+>> I don't know how this site works at a code level. I know exactly how it should feel.
+
+For now, that's enough.
+
+---
+
+Tags: vibe-coding / claude-code / figma / mcp / next-js
 
 `,
         },
@@ -350,283 +245,206 @@ as the workflow evolves.
       icon: 'folder',
       children: [
         {
-          id: 'growth:small-systems',
-          name: 'a-small-system-that-works.txt',
+          id: 'growth:dopamine-detox',
+          name: 'dopamine-detox.txt',
           type: 'file',
           icon: 'file-growth',
-          date: 'Mar 2026',
-          description: 'Less discipline, more defaults: a lightweight routine for staying consistent.',
-          content: `A SMALL SYSTEM THAT WORKS
-==========================
-Mar 2026
+          date: 'Jun 2023',
+          description: 'How resetting your dopamine baseline changes everything about motivation and focus.',
+          content: `DOPAMINE DETOX: IT WILL CHANGE YOUR LIFE
+=========================================
+Jun 2023
 
-Less discipline, more defaults: a lightweight
-routine for staying consistent.
-
----
-
-I used to believe consistency required
-willpower. That if I just cared enough,
-I'd do the thing.
-
-That worked for about a week every January.
-
-
-THE REFRAME
------------
-
-Discipline is a finite resource.
-Systems are infrastructure.
-
-You don't need to "decide" to put on a
-seatbelt. It's just what you do when you
-get in the car. The habit is encoded into
-the context.
-
-That's what I wanted. Encoded defaults.
-
-
-THE SYSTEM (SUCH AS IT IS)
----------------------------
-
-Morning:
-  → Coffee before phone. Non-negotiable.
-  → 15 min: whatever I'm learning
-  → Write one sentence about yesterday
-
-Work:
-  → One thing that matters, done before noon
-  → Everything else is bonus
-
-Evening:
-  → No screens 45 min before sleep
-  → Write or read. No scrolling.
-
-Weekly:
-  → Sunday: plan the week in 10 min
-  → Friday: write one thing I learned
-
-
-WHAT MAKES IT WORK
-------------------
-
-1. It's small. Really small. Small enough
-   that a bad day doesn't break it.
-
-2. It's mine. I built it from observation,
-   not from a book. It fits how I actually
-   work, not how I wish I worked.
-
-3. It changes. If something stops working,
-   I replace it. No attachment to the system.
-
-4. It has defaults, not rules. Rules feel
-   like obligations. Defaults feel like
-   starting points.
-
-
-WHAT DOESN'T WORK
------------------
-
-- Tracking everything. I tried apps. I tried
-  spreadsheets. I tried bullet journals.
-  The tracking became the habit.
-
-- Systems from other people. Other people's
-  systems are optimized for other people's
-  lives. Interesting to read, dangerous to copy.
-
-- Perfection. Miss a day, miss a week —
-  the system still works when you come back
-  to it. Perfection is the enemy of ongoing.
-
+How resetting your dopamine baseline changes
+everything about motivation and focus.
 
 ---
 
-The goal was never to be maximally productive.
-It was to be consistently okay. To show up
-most days and do the thing.
+If you can't read even for 5 minutes or study
+and think you have a distraction — this post is for you.
 
-That's a much lower bar. And it turns out,
-a much more achievable one.
+If you clicked this, you're probably having trouble
+focusing on things you used to do easily. You may not
+be able to read a book for a few minutes without getting
+bored. You may find you're easily distracted.
+
+But if you can spend hours on social media and video
+games without being distracted, your dopamine system
+may be damaged.
+
+Dopamine is secreted by the brain when we attain some
+goal. It can be as minor as drinking water, or as
+important as getting into your dream university.
+
+When we start studying, dopamine is secreted at first,
+but decreases over time. Meanwhile, social media
+algorithms constantly create new content, making us
+feel good all the time. We run this system down by
+spending too much time on platforms. When we don't get
+a reward right away, we give up and return to social
+media for the next hit.
+
+An experiment was conducted on mice given a button
+that released dopamine into their brains. The mice
+lost their desire for food, water, and sex — and
+instead just kept pressing the button.
+
+Sound familiar?
+
+When we cause our brain to release too much dopamine,
+the brain tries to balance it two ways:
+
+→ Decreases dopamine production
+→ Dopamine can no longer reach its target
+
+When we're exposed to too many instant pleasures,
+it's no longer enough. We want more and different kinds.
+It's the same with drugs and alcohol. Initially, a beer
+gets you drunk. After a while, that number is 3–4.
+
+I was experiencing this. I used to finish a book in a
+day. Now I spend almost 2 hours on Instagram daily.
+I know it needs to change. This is part of why I
+started a 50-day challenge.
+
+---
+
+## THREE METHODS
+
+## 1. One-day dopamine detox
+
+Get away for one day from everything that gives you
+pleasure. Social media, gaming, music, junk food,
+smoking, alcohol. All of it.
+
+Our minds have been running hot for a long time.
+One clean day can reset more than you'd expect.
+
+## 2. One week — selective detox
+
+Choose one or more things to cut. For example:
+no Instagram and Twitter for a week. This is a
+tactic I use from time to time. It's accessible
+and produces real results.
+
+## 3. One week — full detox once a week
+
+One solid detox day per week, every week.
+This is the hardest program. Start with options
+1 or 2, then push yourself over time.
+
+---
+
+While detoxing: walk, read, pray, sit with yourself.
+There are a lot of other options.
+
+>> If you want to succeed, you have to get away from
+things that give immediate pleasure. Success is the
+priceless pleasure that comes after long, hard work.
+
+---
+
+Tags: dopamine / focus / habits / mental-health
 
 `,
         },
         {
-          id: 'growth:notes-from-istanbul',
-          name: 'notes-from-istanbul.txt',
+          id: 'growth:learned-optimism',
+          name: 'learned-optimism.txt',
           type: 'file',
           icon: 'file-growth',
-          date: 'Feb 2026',
-          description: 'Observations, patterns, and the quiet joy of noticing where you live.',
-          content: `NOTES FROM ISTANBUL
-====================
-Feb 2026
+          date: 'Aug 2023',
+          description: 'What Martin Seligman\'s research reveals about how optimists think differently.',
+          content: `LEARNED OPTIMISM: 3 THINGS HAPPY PEOPLE DO DIFFERENTLY
+=======================================================
+Aug 2023
 
-Observations, patterns, and the quiet joy
-of noticing where you live.
-
----
-
-I've lived in Istanbul my whole life.
-Most of it I haven't really seen.
-
-This is an attempt to fix that.
-
-
-THE PROJECT
------------
-
-Once a week: walk somewhere I haven't
-walked before. Notice things. Write them
-down.
-
-Not photos. Notes. There's a difference.
-
-
-THINGS I NOTICED
-----------------
-
-The light at 5pm in February is different
-from the light in August. Obvious. But I
-didn't know this until I looked for it.
-
-The Bosphorus is a different color every day.
-On clear days: deep blue-green. On foggy days:
-silver-grey. After rain: opaque brown.
-
-Ferry terminals have their own time zone.
-No one looks at their phone. Everyone is
-just... waiting. Looking at water.
-
-Old neighborhoods have cats who have
-designated spots. The same cat, same corner,
-same time. Infrastructure.
-
-The Grand Bazaar has a smell. Not one smell —
-a sequence of smells as you walk through.
-I never noticed this before. Now I can't
-stop noticing it.
-
-
-WHAT NOTICING DOES
-------------------
-
-This is the thing I didn't expect: paying
-attention to place makes you pay attention
-to everything else differently.
-
-You practice seeing. And the practice
-generalizes.
-
-I notice design problems more. I notice
-when something is working without knowing why.
-I notice when a conversation changes direction.
-
-Noticing is a skill. It turns out you can
-get better at it.
-
+What Martin Seligman's research reveals about how
+optimists think — and how it can be learned.
 
 ---
 
-This started as a travel journal experiment
-for a city I already live in.
+Everyone wants happiness, an easy and enjoyable life.
+Unfortunately, there is a lot we do not have control over.
 
-It became something else: a practice in
-looking at familiar things like they're new.
+Some people can stand strong in devastating events.
+Their psychology is often little or not affected.
+And then there are people like me who can be hurt
+by a small incident and carry it for a long time.
 
-Istanbul has been doing this to people for
-several thousand years. I'm a slow learner.
+A friend's comment said with good intentions can
+make me feel terrible for days. So why can I be
+made unhappy so easily when others stand stronger
+in far worse situations?
 
-`,
-        },
-        {
-          id: 'growth:reading-habit',
-          name: 'building-a-reading-habit.txt',
-          type: 'file',
-          icon: 'file-growth',
-          date: 'Jan 2026',
-          description: 'How I went from "I should read more" to actually reading more.',
-          content: `BUILDING A READING HABIT
-=========================
-Jan 2026
+I searched for the answer. In this post, I'll tell
+you what learned optimism is and how I apply it now.
 
-How I went from "I should read more"
-to actually reading more.
+The father of the concept is American psychologist
+Dr. Martin Seligman. According to him, it is necessary
+to strive for optimism and to see solutions and
+possibilities in every situation encountered in life.
 
----
-
-"I should read more" is one of those
-sentences that exists to feel good about
-itself without producing any results.
-
-I said it for years. Then I stopped saying
-it and did this instead.
-
-
-THE THING THAT WORKED
----------------------
-
-Books by the bed. That's it.
-
-No app. No goal. No tracker. No Goodreads.
-Just: books within arm's reach when I'm
-going to bed.
-
-I read when I'm too tired to do anything
-else. Which is every night. Which means
-I read every night.
-
-
-THE OTHER THINGS
-----------------
-
-Audiobooks for commutes and walks.
-Started using them for non-fiction.
-2x speed took a week to get used to.
-Now 1x sounds slow.
-
-Abandon bad books. This was the real unlock.
-I used to finish everything. The sunk cost
-kept me in books I didn't like.
-
-Once I started quitting, I started reading
-more. Less friction at the start because
-the exit is clear.
-
-Multiple books at once. One fiction, one
-non-fiction, one "maybe". Switching when
-stuck is better than stopping.
-
-
-THE MISTAKE I WAS MAKING
-------------------------
-
-I was treating reading like exercise:
-something to schedule, track, and optimize.
-
-Reading isn't exercise. It's more like
-eating. You do it because you're hungry.
-The habit is: stay hungry.
-
-Read things that make you want to read
-more. Follow your curiosity, not a list.
-
-
-CURRENT READING
----------------
-
-  → Thinking Fast and Slow (yes, finally)
-  → A short story collection (for the fiction
-    slot, switching between stories)
-  → Some half-read thing about design
-    I keep meaning to finish
+>> Being optimistic takes effort and willpower.
+You have to work at it. Which means it can be learned.
 
 ---
 
-I read more this year than any other year
-in my adult life. Not because I became more
-disciplined. Because I stopped making it hard.
+## 1. THIS TOO SHALL PASS
+
+When we encounter something bad, we think "my life
+is over, everything is ruined." But how we approach
+the situation affects us just as much as the situation.
+
+Focus on "this too shall pass" rather than the situation
+itself. You've been here before. It is not your first
+breakdown. You made it through. You can again.
+
+I still try to change my mindset this way. It isn't easy
+— especially when old traumas surface unexpectedly.
+But with enough practice, everything gets better.
+
+## 2. MISTAKES BELONG WHERE THEY ARE MADE
+
+Don't put the weight of one failure on all parts of
+your life. Failing a math exam doesn't mean you
+failed everything. One bad relationship doesn't mean
+all future ones will go the same way.
+
+Do not generalize. Think about why you feel bad,
+but be realistic. Are you feeling bad about a mistake
+— or are you letting it define your whole life?
+
+I felt like a failure just because I chose the wrong
+career. Now I accept that my career is just one part
+of my life. It doesn't define me.
+
+## 3. MISTAKES DON'T DEFINE YOUR PERSONALITY
+
+Sometimes we take risks and things don't work out.
+But the reason things went wrong isn't always you.
+There are situations outside your control.
+
+Two startups with the same goal can end up very
+differently doing everything the same. Sometimes
+you lose because it wasn't the right time.
+
+>> Accept your success. Stop attributing your wins
+to luck. Your achievements come from you.
+
+---
+
+According to Seligman, the skills needed to get rid
+of helplessness can be learned. It is seeing failures
+as temporary, not permanent. It is developing solutions
+and moving forward against the problems you face.
+
+I hope you get the happiness you want — and more
+importantly, that you stay there.
+
+---
+
+Tags: optimism / psychology / happiness / mindset
 
 `,
         },
@@ -642,39 +460,23 @@ Last updated: March 2026
 
 ---
 
-Currently reading:
-  → Thinking Fast and Slow (Kahneman)
-  → Various threads about AI and creativity
-
 Currently building:
-  → This Windows 95 personal site
-     (you are inside it right now)
-  → Exploring AI-assisted design tools
-     in my day job
+  → This personal site (you are inside it right now)
+  → A workflow for turning daily work
+     into something worth publishing
 
 Currently learning:
-  → How to actually write code, not just
-     prompt for it
-  → Prompt engineering patterns that work
-     across different models
-  → Turkish (studying my own city more
-     carefully — see Notes from Istanbul)
+  → Vibe coding — how to build with AI
+     without needing to write the code yourself
+  → Using AI in real product design and PM workflows
+  → How to document the process while
+     living it, not after
 
 Currently obsessing over:
-  → The intersection of AI and design
-  → Building things that stick without
-     requiring maximum effort
-  → Vintage computing aesthetics and what
-     they say about interface design today
-
----
-
-This is a "now page" — a snapshot of
-what I'm focused on at this point in time.
-
-If you want to know what I was doing in
-the past, that information doesn't exist.
-That's the point.
+  → What it means to design products
+     when AI is part of the process
+  → The gap between having ideas and
+     shipping them — and how to close it
 
 `,
     },
@@ -689,25 +491,15 @@ That's the point.
 
 Hi. I'm Merve.
 
-I live in Istanbul and spend most of my
-time thinking about design, AI, and how
-people learn to do things.
+I'm a product designer with 3+ years of experience.
+I built this with AI as both a playground and a notebook.
+As I keep learning and experimenting, I use this space
+to document what I discover.
 
-This site is my digital garden — a place
-to share experiments, half-baked ideas,
-and things I'm figuring out in public.
-
-I'm a product designer with 3+ years of
-experience. I built this with AI as both
-a playground and a notebook. As I keep
-learning and experimenting, I use this
-space to document what I discover.
-
-The Windows 95 aesthetic wasn't ironic.
-It's sincere. There's something in the
-pixelated borders and the teal desktop
-that feels honest to me — an interface
-that doesn't pretend to be invisible.
+The Windows 95 aesthetic wasn't ironic. It's sincere.
+There's something in the pixelated borders and the teal
+desktop that feels honest to me — an interface that
+doesn't pretend to be invisible.
 
 Also, it was a fun weekend project.
 
@@ -721,16 +513,16 @@ Product design — I make digital products
 Experiments — I build things to learn.
   Most of them don't ship. That's fine.
 
-Writing — Slowly. About design, systems,
+Writing — About design, systems,
   and things I'm noticing.
 
 ==============================
 CURRENTLY
 ==============================
 
+Working at:  Climateware, as a product designer
 Working on:  this site, actually
-Reading:     Thinking Fast and Slow
-Learning:    how to ship code faster
+Learning:    using AI to design, build, and ship faster
 
 ==============================
 CONTACT

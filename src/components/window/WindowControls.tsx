@@ -14,9 +14,9 @@ function ControlBtn({ label, onClick, title }: ControlBtnProps) {
   return (
     <button
       title={title}
-      onMouseDown={(e) => { e.stopPropagation(); setPressed(true); }}
-      onMouseUp={(e) => { setPressed(false); onClick(e); }}
-      onMouseLeave={() => setPressed(false)}
+      onPointerDown={(e) => { e.stopPropagation(); setPressed(true); }}
+      onPointerUp={(e) => { setPressed(false); onClick(e as unknown as React.MouseEvent); }}
+      onPointerLeave={() => setPressed(false)}
       style={{
         width: 16,
         height: 14,

@@ -1,0 +1,249 @@
+---
+title: "How I Built This Without Writing a Single Line of Code"
+date: "2026-03-23"
+description: "A Windows 95 personal site, built with AI tools, zero coding experience, and one very long prompt."
+category: "Craft"
+tags: ["vibe-coding", "claude-code", "figma", "mcp", "next-js"]
+readingTime: 6
+---
+
+import { ToolFlow } from '@/components/diagrams/ToolFlow';
+import { BuildProcess } from '@/components/diagrams/BuildProcess';
+
+I have never written a line of production code in my life.
+I'm a product designer. I know how interfaces should feel.
+I know what makes a button wrong. I do not know what a
+useEffect hook is, and until recently, I did not need to.
+
+This site exists anyway. Here's how.
+
+---
+
+## THE IDEA
+
+I wanted a personal site that felt like a place —
+not a landing page, not a portfolio template.
+Something with a sense of space and navigation.
+
+The first thought was a desktop metaphor. Files, folders,
+windows you can open and close. An interface that treats
+content like a file system, not a scroll.
+
+The second thought was: it has to be Windows 95.
+
+Not ironically. Sincerely. There's something honest about
+that aesthetic — beveled borders, teal desktop, pixel fonts.
+An interface that doesn't try to disappear. I wanted that.
+
+---
+
+## STEP 1 — FINDING THE DESIGN SYSTEM
+
+The first problem: I'm not building a Windows 95 design
+system from scratch. That would take weeks and a very
+different skill set.
+
+So I looked in Figma Community. Someone had already done it.
+
+→ Windows 95 Design System (Community)
+  figma.com/community/file/WqRM3ioze2H6GhABxv7uWH
+
+Every component. Every color. Every beveled border.
+The exact teal. The exact grey. The pixel font (W95FA
+by FontsArena). All of it, already built.
+
+I didn't design this site. I referenced it.
+
+---
+
+## STEP 2 — CONNECTING FIGMA TO CLAUDE CODE VIA MCP
+
+<ToolFlow />
+
+This is where it gets interesting.
+
+MCP stands for Model Context Protocol. It's a way to
+connect external tools — like Figma — directly to
+Claude Code, so Claude can see your design files
+while it writes the code.
+
+Setting up the Figma MCP:
+
+  1. Open Claude Code settings
+  2. Add MCP server → select Figma
+  3. Authenticate with your Figma account
+  4. Done
+
+Once connected, Claude Code can look at any Figma frame
+and use it as a reference while building. Not just a
+screenshot — it reads the actual component structure,
+color values, spacing, and layer names.
+
+This meant I could say: "Use this design system as your
+visual reference" and point at the Figma file.
+Claude would actually understand what it was looking at.
+
+---
+
+## STEP 3 — THE PROMPT
+
+I didn't open a code editor. I opened Claude (claude.ai)
+and described what I wanted. We went back and forth.
+I explained the structure, the content categories,
+the window behavior, the aesthetic rules.
+
+Claude turned all of that into a single, detailed prompt
+to give to Claude Code. Here it is:
+[PROMPT BLOCK START]
+Claude Code Prompt — Windows 95 Personal Website
+Project Overview
+Build a fully functional personal website that looks and
+feels exactly like a Windows 95 desktop running in a browser.
+This is not a novelty gimmick — it is the actual UI paradigm:
+the entire website IS the desktop. Every piece of content lives
+inside draggable, resizable windows. Navigation happens through
+double-clicking icons, opening folders, and interacting with a
+Start menu and taskbar.
+The site serves as a personal knowledge garden and creative
+portfolio — a place to share AI/design/vibe-coding experiments,
+self-improvement writing, and a "now" page. The aesthetic must
+be pixel-perfect faithful to Windows 95: beveled borders, teal
+desktop, system fonts, classic iconography.
+Tech Stack
+
+Framework: Next.js 14+ with App Router
+Language: TypeScript
+Styling: CSS Modules (override with raw CSS for Win95 details)
+Content: MDX files for blog posts/notes
+No external UI libraries — build every Win95 component from scratch
+Deployment target: Vercel
+
+Visual Design System — Windows 95 Faithful
+Reference: Windows 95 Design System (W95FA font by FontsArena)
+Typography:
+
+System font: "W95FA" — the authentic pixelated Windows 95 font
+Fallback: "Fixedsys", "Courier New", monospace
+Font size: 11px body, 12px titles
+No anti-aliasing: font-smooth: never
+
+Color Palette:
+
+Desktop background:  #008080
+Window background:   #C0C0C0
+Window title active: linear-gradient(#000080 → #1084d0)
+Button highlight:    #FFFFFF (top/left bevel)
+Button shadow:       #808080 (bottom/right bevel)
+Selected bg:         #000080
+
+[... full prompt continues with window management system,
+content architecture, component list, and build order]
+[PROMPT BLOCK END]
+
+I gave this to Claude Code in the terminal.
+It started writing. I watched.
+
+---
+
+## STEP 4 — CLAUDE CODE SKILLS
+
+Before running the prompt, I installed two skills into
+Claude Code — think of them as permanent instructions
+that load every session:
+
+  → frontend-design (by Anthropic)
+     Tells Claude to make distinctive UI decisions
+     instead of generic AI defaults. No Inter font.
+     No purple gradients. Commit to an aesthetic.
+
+  → web-design-guidelines (by Vercel)
+     100+ rules for accessibility, UX best practices,
+     and interface quality. Runs as a background check
+     on everything Claude builds.
+
+Installing them took about 2 minutes:
+
+  git clone https://github.com/anthropics/skills.git
+  cp -r skills/skills/frontend-design ~/.claude/skills/
+
+  git clone https://github.com/vercel-labs/agent-skills.git
+  cp -r agent-skills/skills/web-design-guidelines ~/.claude/skills/
+
+After that, Claude Code reads them automatically.
+Every project. Every session.
+
+---
+
+## STEP 5 — ITERATION
+
+Claude Code built the first version in one session.
+It wasn't perfect. Nothing is.
+
+I kept a second window open — claude.ai, this conversation —
+and used it to translate what I wanted into prompts for
+Claude Code. A feedback loop:
+
+  See something off → describe it here → get a prompt →
+  paste into Claude Code → see the change → repeat
+
+No debugging. No Stack Overflow. No understanding what
+a React component actually is at a structural level.
+Just describing what I wanted and refining.
+
+Some things I iterated on:
+  → Icon sizes (too small at first, bumped to 48px)
+  → My Notes folder opens automatically on load
+  → Close buttons weren't working (fixed)
+  → Blog post reader needed to be more readable
+     (kept Win95 chrome, redesigned the content area)
+
+---
+
+## STEP 6 — DEPLOYING TO VERCEL
+
+Getting a Next.js site live on Vercel is surprisingly
+straightforward — even if you've never deployed anything.
+
+  1. Push your project to GitHub
+     (Claude Code handles the git commands if you ask)
+
+  2. Go to vercel.com → New Project
+     Import your GitHub repository
+
+  3. Vercel detects Next.js automatically
+     No configuration needed
+
+  4. Click Deploy
+
+That's it. Vercel builds the project, assigns a URL,
+and every time you push new changes to GitHub,
+it redeploys automatically.
+
+The whole process took about 10 minutes the first time.
+
+---
+
+## WHAT I LEARNED
+
+<BuildProcess />
+
+This wasn't about learning to code.
+It was about learning to direct.
+
+Knowing what you want — specifically, visually, structurally —
+turns out to be most of the work. The prompt I gave Claude Code
+was detailed because I had a clear picture. Vague prompts
+get vague results.
+
+The Figma MCP connection changed something for me.
+Design and code stopped feeling like separate phases.
+I could point at a component and say "make it look like that"
+and it would. That's new. That matters.
+
+I don't know how this site works at a code level.
+I know exactly how it should feel.
+For now, that's enough.
+
+---
+
+Tags: vibe-coding / claude-code / figma / mcp / next-js

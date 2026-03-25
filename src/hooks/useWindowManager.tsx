@@ -5,7 +5,7 @@ import React, { createContext, useContext, useReducer, useCallback, useRef } fro
 export interface WinDef {
   id: string;
   title: string;
-  app: 'explorer' | 'notepad' | 'dialog';
+  app: 'explorer' | 'notepad' | 'dialog' | 'recyclebin';
   appData: Record<string, unknown>;
   isMinimized: boolean;
   isMaximized: boolean;
