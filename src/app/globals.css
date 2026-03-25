@@ -113,6 +113,16 @@ html, body {
   background: #C0C0C0;
 }
 
+/* Mobile / desktop visibility */
+@media (max-width: 799px) {
+  .desktop-root { display: none !important; }
+  .mobile-fallback { display: flex !important; }
+}
+@media (min-width: 800px) {
+  .desktop-root { display: block; }
+  .mobile-fallback { display: none !important; }
+}
+
 /* Allow text selection in content areas */
 .win95-selectable {
   -webkit-user-select: text;
