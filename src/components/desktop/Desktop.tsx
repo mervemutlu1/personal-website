@@ -43,7 +43,7 @@ export function Desktop() {
   const { windows, openWindow, closeWindow, getFocusedId, desktopRef } = useWindowManager();
   const [iconPositions, setIconPositions] = useState<Record<string, { x: number; y: number }>>({});
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const contextRef = useRef<HTMLDivElement>(null);
 
   // Load icon positions from localStorage
@@ -151,7 +151,7 @@ export function Desktop() {
 
   // Open My Notes on first load
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile !== false) return;
     openWindow({
       id: 'explorer:root',
       title: 'My Notes',
@@ -163,6 +163,8 @@ export function Desktop() {
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (isMobile === null) return null;
 
   if (isMobile) {
     return (
