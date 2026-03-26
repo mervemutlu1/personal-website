@@ -1,26 +1,20 @@
 'use client';
 
-import React from 'react';
-import { MenuBar } from '../ui/MenuBar';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { findEntry, FileEntry } from '@/lib/content';
+import { useWindowManager } from '@/hooks/useWindowManager';
 
 interface NotepadWindowProps {
   fileId: string;
+  windowId: string;
 }
-
-const menuItems = [
-  { label: 'File', items: ['New', 'Open...', 'Save', '-', 'Page Setup...', 'Print', '-', 'Exit'] },
-  { label: 'Edit', items: ['Undo', '-', 'Cut', 'Copy', 'Paste', 'Delete', '-', 'Select All', '-', 'Time/Date', '-', 'Word Wrap'] },
-  { label: 'Search', items: ['Find...', 'Find Next', 'Replace...'] },
-  { label: 'Help', items: ['Help Topics', '-', 'About Notepad'] },
-];
 
 function isBlogPost(entry: FileEntry) {
   return entry.icon === 'file-craft' || entry.icon === 'file-growth';
 }
 
 function getCategoryLabel(entry: FileEntry) {
-  return entry.icon === 'file-craft' ? 'Craft' : 'Growth';
+  return entry.icon === 'file-craft' ? 'CRAFT' : 'GROWTH';
 }
 
 function getReadingTime(content: string) {
@@ -40,9 +34,16 @@ function extractBody(content: string) {
   return lines.slice(dividerIdx + 1).join('\n').replace(/^\n+/, '');
 }
 
+function extractHeadings(body: string): string[] {
+  return body
+    .split(/\n{2,}/)
+    .map((b) => b.trim())
+    .filter((b) => /^##\s+/.test(b))
+    .map((b) => b.split('\n')[0].replace(/^##\s+/, '').trim());
+}
+
 /** Render inline text with ==highlight==, `code`, and URL support */
 function renderInline(text: string, key: string | number) {
-  // Split on ==mark==, `code`, https:// URLs, and bare domain URLs
   const pattern = /(==.+?==|`[^`]+`|https?:\/\/[^\s)]+|(?<![a-zA-Z])figma\.com\/[^\s)]+)/g;
   const parts = text.split(pattern);
 
@@ -59,13 +60,12 @@ function renderInline(text: string, key: string | number) {
         if (part.startsWith('`') && part.endsWith('`')) {
           return (
             <code key={i} style={{
-              background: '#f0f0ec',
-              fontFamily: "'Courier New', Courier, monospace",
-              fontSize: 13,
-              fontWeight: 500,
+              background: '#f1f5f9',
+              fontFamily: '"Fira Code", "Cascadia Code", monospace',
+              fontSize: 14,
+              color: '#dc2626',
               padding: '2px 6px',
-              borderRadius: 3,
-              color: '#c0392b',
+              borderRadius: 4,
             }}>
               {part.slice(1, -1)}
             </code>
@@ -74,15 +74,18 @@ function renderInline(text: string, key: string | number) {
         if (part.startsWith('https://') || part.startsWith('figma.com/')) {
           const href = part.startsWith('https://') ? part : `https://${part}`;
           return (
-            <a key={i} href={href} target="_blank" rel="noopener noreferrer" style={{
-              color: '#1a1a1a',
-              textDecoration: 'underline',
-              textDecorationColor: '#aaaaaa',
-              fontFamily: "'Courier New', Courier, monospace",
-              fontSize: 12,
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.textDecorationColor = '#333333')}
-            onMouseLeave={(e) => (e.currentTarget.style.textDecorationColor = '#aaaaaa')}
+            <a
+              key={i}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#1558d6',
+                textDecoration: 'underline',
+                textDecorationColor: 'rgba(21, 88, 214, 0.4)',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.textDecorationColor = '#1558d6')}
+              onMouseLeave={(e) => (e.currentTarget.style.textDecorationColor = 'rgba(21, 88, 214, 0.4)')}
             >
               {part}
             </a>
@@ -94,79 +97,206 @@ function renderInline(text: string, key: string | number) {
   );
 }
 
-/** Check if heading matches "STEP N —" pattern */
-function isStepHeader(text: string) {
-  return /^STEP\s+\d+\s*[—\-]/i.test(text.trim());
+function NavTab({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'block',
+        width: '100%',
+        textAlign: 'left',
+        padding: '8px 12px',
+        fontSize: 12,
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontWeight: active ? 500 : 400,
+        color: active ? '#ffffff' : hovered ? '#333' : '#888',
+        background: active ? '#1a1a1a' : hovered ? '#f5f5f5' : 'transparent',
+        borderRadius: 6,
+        border: 'none',
+        cursor: 'pointer',
+        transition: 'all 0.15s',
+        lineHeight: 1.4,
+      }}
+    >
+      {label}
+    </button>
+  );
 }
 
-const SERIF = "'Lora', Georgia, serif";
-const MONO = "var(--win95-font), 'Courier New', monospace";
+const BODY_FONT = 'Georgia, serif';
+const BODY_SIZE = 17;
+const BODY_LINE = 1.85;
+const BODY_COLOR = '#1a1a1a';
+const BODY_WEIGHT = 400;
 
-function BlogPostReader({ entry }: { entry: FileEntry }) {
+function BlogPostReader({ entry, windowId }: { entry: FileEntry; windowId: string }) {
+  const { closeWindow } = useWindowManager();
   const title = getPostTitle(entry);
   const category = getCategoryLabel(entry);
   const readingTime = getReadingTime(entry.content ?? '');
   const body = extractBody(entry.content ?? '');
+  const headings = useMemo(() => extractHeadings(body), [body]);
+
+  const [activeHeading, setActiveHeading] = useState<string | null>(headings[0] ?? null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container || !headings.length) return;
+
+    const handleScroll = () => {
+      const containerTop = container.getBoundingClientRect().top;
+      let current: string | null = null;
+      for (const h of headings) {
+        const el = sectionRefs.current.get(h);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top - containerTop <= 120) current = h;
+      }
+      setActiveHeading(current ?? headings[0] ?? null);
+    };
+
+    handleScroll();
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [headings]);
+
+  const scrollToSection = (heading: string) => {
+    const el = sectionRefs.current.get(heading);
+    const container = scrollContainerRef.current;
+    if (!el || !container) return;
+    const elTop = el.getBoundingClientRect().top - container.getBoundingClientRect().top;
+    container.scrollBy({ top: elTop - 80, behavior: 'smooth' });
+    setActiveHeading(heading);
+  };
 
   const blocks = body.split(/\n{2,}/);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#C0C0C0' }}>
-      <MenuBar items={menuItems} />
+    <div style={{ display: 'flex', height: '100%', background: '#ffffff', overflow: 'hidden' }}>
 
+      {/* LEFT NAV — 220px fixed */}
       <div style={{
-        flex: 1,
+        width: 220,
+        flexShrink: 0,
+        height: '100%',
         overflowY: 'auto',
-        background: '#FAFAF8',
-        margin: 2,
-        borderTop: '2px solid #808080',
-        borderLeft: '2px solid #808080',
-        borderRight: '2px solid #FFFFFF',
-        borderBottom: '2px solid #FFFFFF',
-        boxShadow: 'inset 1px 1px 0 #000000, inset -1px -1px 0 #DFDFDF',
+        background: '#ffffff',
+        borderRight: '1px solid #e8e8e8',
+        padding: '32px 20px',
+        display: 'flex',
+        flexDirection: 'column',
+        boxSizing: 'border-box',
       }}>
-        <div style={{ maxWidth: 600, margin: '0 auto', padding: '28px 32px 40px' }}>
+        {/* Back button */}
+        <button
+          onClick={() => closeWindow(windowId)}
+          style={{
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            fontSize: 13,
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            color: '#888',
+            cursor: 'pointer',
+            textAlign: 'left',
+            marginBottom: 20,
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = '#333')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = '#888')}
+        >
+          ← Back
+        </button>
+
+        {/* Category badge */}
+        <span style={{
+          display: 'inline-block',
+          background: '#f0f0f0',
+          color: '#555',
+          fontSize: 11,
+          letterSpacing: '0.08em',
+          padding: '4px 10px',
+          borderRadius: 20,
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+          textTransform: 'uppercase',
+          alignSelf: 'flex-start',
+        }}>
+          {category}
+        </span>
+
+        {/* Post title */}
+        <div style={{
+          fontSize: 14,
+          fontWeight: 500,
+          color: '#1a1a1a',
+          marginTop: 16,
+          lineHeight: 1.5,
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+        }}>
+          {title}
+        </div>
+
+        {/* Divider */}
+        <div style={{ height: 1, background: '#e8e8e8', margin: '20px 0', flexShrink: 0 }} />
+
+        {/* Section tabs */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {headings.map((h) => (
+            <NavTab
+              key={h}
+              label={h}
+              active={activeHeading === h}
+              onClick={() => scrollToSection(h)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* RIGHT CONTENT — scrollable */}
+      <div
+        ref={scrollContainerRef}
+        style={{
+          flex: 1,
+          overflowY: 'auto',
+          background: '#ffffff',
+        }}
+      >
+        <div style={{ maxWidth: 660, padding: '48px 64px 80px', margin: '0 auto' }}>
 
           {/* Post header */}
-          <div style={{ marginBottom: 20 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, flexWrap: 'wrap' }}>
-              <span style={{
-                fontFamily: MONO,
-                fontSize: 10,
-                color: '#000000',
-                border: '1px solid #808080',
-                padding: '1px 6px',
-                background: '#C0C0C0',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-              }}>
-                {category}
-              </span>
-              {entry.date && (
-                <span style={{ fontFamily: MONO, fontSize: 10, color: '#808080' }}>{entry.date}</span>
-              )}
-              <span style={{ fontFamily: MONO, fontSize: 10, color: '#808080' }}>{readingTime} min read</span>
+          <div>
+            <div style={{
+              fontSize: 12,
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+              color: '#999',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              marginBottom: 12,
+            }}>
+              {category}{entry.date && ` · ${entry.date}`} · {readingTime} min read
             </div>
 
             <h1 style={{
-              fontFamily: SERIF,
-              fontSize: 26,
-              fontWeight: 600,
+              fontSize: 32,
+              fontWeight: 700,
+              color: '#0f0f0f',
               lineHeight: 1.25,
-              color: '#1a1a1a',
+              fontFamily: BODY_FONT,
               margin: '0 0 12px',
-              letterSpacing: '-0.01em',
             }}>
               {title}
             </h1>
 
             {entry.description && (
               <p style={{
-                fontFamily: SERIF,
+                fontSize: 18,
+                color: '#555',
                 fontStyle: 'italic',
-                fontSize: 15,
                 lineHeight: 1.5,
-                color: '#555555',
+                fontFamily: BODY_FONT,
                 margin: 0,
               }}>
                 {entry.description}
@@ -174,13 +304,8 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
             )}
           </div>
 
-          {/* Sunken divider */}
-          <div style={{
-            height: 2,
-            borderTop: '1px solid #808080',
-            borderBottom: '1px solid #FFFFFF',
-            margin: '0 0 24px',
-          }} />
+          {/* Header divider */}
+          <div style={{ height: 1, background: '#e0e0e0', margin: '32px 0' }} />
 
           {/* Body blocks */}
           <div>
@@ -191,12 +316,7 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
               // --- divider
               if (trimmed === '---') {
                 return (
-                  <div key={i} style={{
-                    height: 2,
-                    borderTop: '1px solid #e0e0e0',
-                    borderBottom: '1px solid #FFFFFF',
-                    margin: '28px 0',
-                  }} />
+                  <div key={i} style={{ height: 1, background: '#e0e0e0', margin: '2rem 0' }} />
                 );
               }
 
@@ -206,14 +326,14 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
                 return (
                   <div key={i} style={{
                     borderLeft: '3px solid #1a1a1a',
-                    background: '#f5f5f0',
-                    padding: '10px 16px',
-                    margin: '1.5rem 0',
-                    borderRadius: '0 4px 4px 0',
-                    fontFamily: SERIF,
+                    background: '#f9f9f8',
+                    padding: '12px 20px',
+                    margin: '1.75rem 0',
+                    borderRadius: '0 6px 6px 0',
+                    fontFamily: BODY_FONT,
                     fontStyle: 'italic',
-                    fontSize: 16,
-                    lineHeight: 1.6,
+                    fontSize: 18,
+                    lineHeight: 1.65,
                     color: '#1a1a1a',
                   }}>
                     {renderInline(text, i)}
@@ -221,23 +341,22 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
                 );
               }
 
-              // ~~~ code block
+              // ~~~ fenced code block
               if (trimmed.startsWith('~~~') && trimmed.endsWith('~~~') && trimmed.length > 6) {
                 const code = trimmed.slice(3, -3).replace(/^\n/, '');
                 return (
                   <pre key={i} style={{
-                    background: '#1a1a1a',
-                    color: '#e8e8e8',
-                    fontFamily: "'Courier New', Courier, monospace",
-                    fontSize: 13,
-                    fontWeight: 500,
+                    background: '#0f172a',
+                    color: '#e2e8f0',
+                    fontFamily: '"Fira Code", "Cascadia Code", monospace',
+                    fontSize: 14,
                     lineHeight: 1.7,
-                    padding: '16px 20px',
-                    borderRadius: 4,
-                    borderLeft: '3px solid #555555',
-                    margin: '1.2rem 0',
+                    padding: '20px 24px',
+                    borderRadius: 8,
+                    margin: '1.5rem 0',
                     overflowX: 'auto',
                     whiteSpace: 'pre',
+                    border: 'none',
                   }}>
                     {code}
                   </pre>
@@ -246,34 +365,37 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
 
               const lines = trimmed.split('\n');
 
-              // ## Markdown heading
+              // ## Section heading — registers ref for nav
               if (/^##\s+/.test(lines[0])) {
                 const heading = lines[0].replace(/^##\s+/, '').trim();
                 const rest = lines.slice(1).join('\n').trim();
-                const isStep = isStepHeader(heading);
                 return (
-                  <div key={i} style={{ marginTop: isStep ? '2.5rem' : '1.5rem', marginBottom: 12 }}>
+                  <div
+                    key={i}
+                    ref={(el) => { if (el) sectionRefs.current.set(heading, el); }}
+                    style={{ marginTop: 48 }}
+                  >
                     <h2 style={{
-                      fontFamily: MONO,
-                      fontSize: 11,
-                      fontWeight: 'bold',
-                      color: '#1a1a1a',
-                      letterSpacing: isStep ? '0.12em' : '0.08em',
+                      fontSize: 13,
+                      fontWeight: 700,
+                      letterSpacing: '0.12em',
                       textTransform: 'uppercase',
-                      margin: 0,
-                      paddingBottom: isStep ? 6 : 0,
-                      borderBottom: isStep ? '1px solid #e0e0e0' : 'none',
+                      color: '#1a1a1a',
+                      fontFamily: 'system-ui, -apple-system, sans-serif',
+                      margin: '0 0 8px',
+                      paddingBottom: 8,
+                      borderBottom: '2px solid #1a1a1a',
                     }}>
                       {heading}
                     </h2>
                     {rest && (
                       <p style={{
-                        fontFamily: SERIF,
-                        fontSize: 15,
-                        lineHeight: 1.75,
-                  fontWeight: 500,
-                        color: '#1a1a1a',
-                        margin: '10px 0 0',
+                        fontFamily: BODY_FONT,
+                        fontSize: BODY_SIZE,
+                        lineHeight: BODY_LINE,
+                        fontWeight: BODY_WEIGHT,
+                        color: BODY_COLOR,
+                        margin: '1rem 0 0',
                         whiteSpace: 'pre-wrap',
                       }}>
                         {renderInline(rest, 'body')}
@@ -283,51 +405,8 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
                 );
               }
 
-              // ALL CAPS + dashes heading
-              if (
-                lines.length >= 2 &&
-                lines[0] === lines[0].toUpperCase() &&
-                lines[0].trim().length > 2 &&
-                /^[-=]+$/.test(lines[1].trim())
-              ) {
-                const heading = lines[0].trim();
-                const rest = lines.slice(2).join('\n').trim();
-                const isStep = isStepHeader(heading);
-                return (
-                  <div key={i} style={{ marginTop: isStep ? '2.5rem' : '1.5rem', marginBottom: 12 }}>
-                    <h2 style={{
-                      fontFamily: MONO,
-                      fontSize: 11,
-                      fontWeight: 'bold',
-                      color: '#1a1a1a',
-                      letterSpacing: isStep ? '0.12em' : '0.08em',
-                      textTransform: 'uppercase',
-                      margin: 0,
-                      paddingBottom: isStep ? 6 : 0,
-                      borderBottom: isStep ? '1px solid #e0e0e0' : 'none',
-                    }}>
-                      {heading}
-                    </h2>
-                    {rest && (
-                      <p style={{
-                        fontFamily: SERIF,
-                        fontSize: 15,
-                        lineHeight: 1.75,
-                  fontWeight: 500,
-                        color: '#1a1a1a',
-                        margin: '10px 0 0',
-                        whiteSpace: 'pre-wrap',
-                      }}>
-                        {renderInline(rest, 'body')}
-                      </p>
-                    )}
-                  </div>
-                );
-              }
-
-              // Arrow list card (→ items, with optional indented continuation lines)
+              // → Arrow list card
               if (lines.some((l) => l.trim().startsWith('→'))) {
-                // Group lines: → starts new item, indented lines continue previous
                 const items: string[] = [];
                 for (const line of lines) {
                   const t = line.trim();
@@ -342,27 +421,27 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
                   <div key={i} style={{
                     background: '#fafaf8',
                     border: '1px solid #efefed',
-                    borderRadius: 6,
+                    borderRadius: 8,
                     padding: '12px 16px',
-                    margin: '1rem 0',
+                    margin: '1.25rem 0',
                   }}>
                     {items.map((item, j) => (
                       <div key={j} style={{
                         display: 'block',
-                        padding: '4px 0',
-                        paddingLeft: 16,
-                        fontFamily: SERIF,
-                        fontSize: 15,
-                        lineHeight: 1.75,
-                  fontWeight: 500,
-                        color: '#1a1a1a',
+                        padding: '5px 0',
+                        paddingLeft: 20,
+                        fontFamily: BODY_FONT,
+                        fontSize: BODY_SIZE,
+                        lineHeight: BODY_LINE,
+                        fontWeight: BODY_WEIGHT,
+                        color: BODY_COLOR,
                         position: 'relative',
                       }}>
                         <span style={{
                           position: 'absolute',
                           left: 0,
-                          color: '#888888',
-                          fontFamily: "'Courier New', monospace",
+                          color: '#888',
+                          fontFamily: 'system-ui, sans-serif',
                         }}>→</span>
                         {renderInline(item, j)}
                       </div>
@@ -371,21 +450,21 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
                 );
               }
 
-              // Numbered list
+              // Numbered/bullet list
               if (lines.every((l) => /^(\d+\.|-)/.test(l.trim()) || l.trim() === '')) {
                 return (
                   <ul key={i} style={{
-                    fontFamily: SERIF,
-                    fontSize: 15,
-                    lineHeight: 1.75,
-                  fontWeight: 500,
-                    color: '#1a1a1a',
-                    margin: '0 0 1.4rem',
-                    paddingLeft: 20,
+                    fontFamily: BODY_FONT,
+                    fontSize: BODY_SIZE,
+                    lineHeight: BODY_LINE,
+                    fontWeight: BODY_WEIGHT,
+                    color: BODY_COLOR,
+                    margin: '0 0 1.5rem',
+                    paddingLeft: 24,
                     listStyle: 'none',
                   }}>
                     {lines.filter((l) => l.trim()).map((l, j) => (
-                      <li key={j} style={{ marginBottom: 4 }}>
+                      <li key={j} style={{ marginBottom: 6 }}>
                         {renderInline(l.trim(), j)}
                       </li>
                     ))}
@@ -393,18 +472,18 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
                 );
               }
 
-              // Blockquote: starts with `"`
+              // Blockquote
               if (trimmed.startsWith('"') || trimmed.startsWith('  "')) {
                 return (
                   <blockquote key={i} style={{
-                    borderLeft: '3px solid #808080',
-                    margin: '0 0 1.4rem',
-                    paddingLeft: 16,
-                    fontFamily: SERIF,
+                    borderLeft: '3px solid #d0d0d0',
+                    margin: '0 0 1.5rem',
+                    paddingLeft: 20,
+                    fontFamily: BODY_FONT,
                     fontStyle: 'italic',
-                    fontSize: 14,
-                    lineHeight: 1.6,
-                    color: '#555555',
+                    fontSize: 16,
+                    lineHeight: 1.65,
+                    color: '#666',
                   }}>
                     {renderInline(trimmed, 'quote')}
                   </blockquote>
@@ -414,12 +493,12 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
               // Regular paragraph
               return (
                 <p key={i} style={{
-                  fontFamily: SERIF,
-                  fontSize: 15,
-                  lineHeight: 1.75,
-                  fontWeight: 500,
-                  color: '#1a1a1a',
-                  margin: '0 0 1.4rem',
+                  fontFamily: BODY_FONT,
+                  fontSize: BODY_SIZE,
+                  lineHeight: BODY_LINE,
+                  fontWeight: BODY_WEIGHT,
+                  color: BODY_COLOR,
+                  margin: '0 0 1.5rem',
                   whiteSpace: 'pre-wrap',
                 }}>
                   {renderInline(trimmed, i)}
@@ -436,7 +515,6 @@ function BlogPostReader({ entry }: { entry: FileEntry }) {
 function PlainTextReader({ entry }: { entry: FileEntry }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#C0C0C0' }}>
-      <MenuBar items={menuItems} />
       <div
         className="win95-selectable"
         style={{
@@ -465,12 +543,12 @@ function PlainTextReader({ entry }: { entry: FileEntry }) {
   );
 }
 
-export function NotepadWindow({ fileId }: NotepadWindowProps) {
+export function NotepadWindow({ fileId, windowId }: NotepadWindowProps) {
   const entry = findEntry(fileId);
   if (!entry) return null;
 
   if (isBlogPost(entry)) {
-    return <BlogPostReader entry={entry} />;
+    return <BlogPostReader entry={entry} windowId={windowId} />;
   }
 
   return <PlainTextReader entry={entry} />;

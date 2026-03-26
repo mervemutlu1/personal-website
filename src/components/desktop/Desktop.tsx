@@ -23,12 +23,12 @@ interface ContextMenuState {
   y: number;
 }
 
-function WindowContent({ app, appData }: { app: string; appData: Record<string, unknown> }) {
+function WindowContent({ app, appData, windowId }: { app: string; appData: Record<string, unknown>; windowId: string }) {
   if (app === 'explorer') {
     return <FolderWindow folderId={appData.folderId as string} />;
   }
   if (app === 'notepad') {
-    return <NotepadWindow fileId={appData.fileId as string} />;
+    return <NotepadWindow fileId={appData.fileId as string} windowId={windowId} />;
   }
   if (app === 'recyclebin') {
     return <RecycleBinWindow />;
@@ -40,7 +40,7 @@ function WindowContent({ app, appData }: { app: string; appData: Record<string, 
 }
 
 export function Desktop() {
-  const { windows, openWindow, closeWindow, getFocusedId, desktopRef } = useWindowManager();
+  const { windows, openWindow, closeWindow, getFocusedId, desktopRef, toggleMaximize } = useWindowManager();
   const [iconPositions, setIconPositions] = useState<Record<string, { x: number; y: number }>>({});
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null);
   const contextRef = useRef<HTMLDivElement>(null);
@@ -73,15 +73,18 @@ export function Desktop() {
       size,
     });
 
-  const openNotepad = (fileId: string, title: string) =>
+  const openNotepad = (fileId: string, title: string) => {
+    const id = `notepad:${fileId}`;
     openWindow({
-      id: `notepad:${fileId}`,
+      id,
       title: `Notepad — ${title}`,
       app: 'notepad',
       appData: { fileId },
       iconType: 'file-txt',
       size: { width: 520, height: 380 },
     });
+    toggleMaximize(id);
+  };
 
   const icons: IconDef[] = [
     {
@@ -239,7 +242,7 @@ export function Desktop() {
             isMaximized={win.isMaximized}
             isFocused={isFocused}
           >
-            <WindowContent app={win.app} appData={win.appData} />
+            <WindowContent app={win.app} appData={win.appData} windowId={win.id} />
           </Window>
         );
       })}
