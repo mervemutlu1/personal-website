@@ -56,19 +56,28 @@ This site exists anyway. Here's how.
 
 ## THE IDEA
 
-I wanted a personal site that felt like a place —
-not a landing page, not a portfolio template.
-Something with a sense of space and navigation.
+AI is reshaping how product designers work.
+This site is my attempt to stay in the middle
+of that shift — not just watch it.
 
-The first thought was a desktop metaphor. Files, folders,
-windows you can open and close. An interface that treats
-content like a file system, not a scroll.
+Over the past year, the tools got strange in
+the best way. Figma Make, Lovable, Stitch started
+generating wireframes from prompts. Figma MCP made
+design files talk directly to code. Cursor and
+Claude Code made shipping something feel as fast
+as describing it.
 
-The second thought was: it has to be Windows 95.
+I'm a product designer. I wanted a place to take
+notes on all of this — experiments, observations,
+things I built to understand. Not a portfolio.
+A notebook that runs.
 
-Not ironically. Sincerely. There's something honest about
-that aesthetic — beveled borders, teal desktop, pixel fonts.
-An interface that doesn't try to disappear. I wanted that.
+The Windows 95 aesthetic is intentional. I wanted
+the container to say something about where
+technology comes from — teal desktop, pixel fonts,
+beveled borders, an interface that was never trying
+to disappear. The contrast between that shell and
+what's inside it is the point.
 
 ---
 
@@ -498,10 +507,15 @@ I built this with AI as both a playground and a notebook.
 As I keep learning and experimenting, I use this space
 to document what I discover.
 
-The Windows 95 aesthetic wasn't ironic. It's sincere.
-There's something in the pixelated borders and the teal
-desktop that feels honest to me — an interface that
-doesn't pretend to be invisible.
+The Windows 95 aesthetic isn't ironic. It's a frame.
+
+I'm watching AI reshape how product designers work —
+Figma MCP, Claude Code, Cursor — tools that turn a
+description into a running interface. This site is
+where I take notes on that shift.
+
+The retro shell, the modern content.
+The contrast is the point.
 
 Also, it was a fun weekend project.
 
