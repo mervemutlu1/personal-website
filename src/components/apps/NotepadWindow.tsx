@@ -133,7 +133,7 @@ const BODY_COLOR = '#1a1a1a';
 const BODY_WEIGHT = 400;
 
 function BlogPostReader({ entry, windowId }: { entry: FileEntry; windowId: string }) {
-  const { closeWindow } = useWindowManager();
+  const { closeWindow, toggleMaximize } = useWindowManager();
   const title = getPostTitle(entry);
   const category = getCategoryLabel(entry);
   const readingTime = getReadingTime(entry.content ?? '');
@@ -143,6 +143,12 @@ function BlogPostReader({ entry, windowId }: { entry: FileEntry; windowId: strin
   const [activeHeading, setActiveHeading] = useState<string | null>(headings[0] ?? null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
+
+  // Auto-maximize when blog post window opens
+  useEffect(() => {
+    toggleMaximize(windowId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const container = scrollContainerRef.current;

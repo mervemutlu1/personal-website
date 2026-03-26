@@ -50,34 +50,32 @@ I'm a product designer. I know how interfaces should feel.
 I know what makes a button wrong. I do not know what a
 useEffect hook is, and until recently, I did not need to.
 
-This site exists anyway. Here's how.
+This site exists anyway. Here's how — and why.
 
 ---
 
 ## THE IDEA
 
-AI is reshaping how product designers work.
-This site is my attempt to stay in the middle
-of that shift — not just watch it.
+Because something is shifting in product design,
+and I wanted a place to think about it out loud.
+AI tools that used to feel like shortcuts started
+feeling like actual workflows. Figma Make, Lovable,
+Stitch started generating full designs and interfaces
+from prompts. Figma MCP made design files talk
+directly to code. Cursor and Claude Code made
+shipping something feel as fast as describing it.
 
-Over the past year, the tools got strange in
-the best way. Figma Make, Lovable, Stitch started
-generating wireframes from prompts. Figma MCP made
-design files talk directly to code. Cursor and
-Claude Code made shipping something feel as fast
-as describing it.
+The contrast between that shell and what's
+inside it is the point.
 
-I'm a product designer. I wanted a place to take
-notes on all of this — experiments, observations,
-things I built to understand. Not a portfolio.
-A notebook that runs.
+In the pages that follow, you'll find how I built
+and shipped this site using Figma, Claude Code, and
+Vercel — without designing a single frame or writing
+a single line of code. Just a clear picture of what
+I wanted, and the right tools to describe it.
 
-The Windows 95 aesthetic is intentional. I wanted
-the container to say something about where
-technology comes from — teal desktop, pixel fonts,
-beveled borders, an interface that was never trying
-to disappear. The contrast between that shell and
-what's inside it is the point.
+It wasn't about learning to code.
+It was about learning to direct.
 
 ---
 
