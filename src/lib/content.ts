@@ -508,17 +508,31 @@ Currently building:
      into something worth publishing
 
 Currently learning:
-  → Vibe coding — how to build with AI
-     without needing to write the code yourself
-  → Using AI in real product design and PM workflows
+  → How to use AI in day-to-day product design —
+     faster prototypes, better design decisions
+  → Prompting for design systems: letting AI
+     help structure components and tokens
+  → Getting real feedback from user research
+     sessions faster with AI-assisted synthesis
   → How to document the process while
      living it, not after
 
 Currently obsessing over:
-  → What it means to design products
-     when AI is part of the process
-  → The gap between having ideas and
-     shipping them — and how to close it
+  → The gap between design and code closing —
+     and what that means for how I work
+  → What it looks like when a product designer
+     learns to ship, not just spec
+  → Whether AI makes design better or just faster —
+     I'm still figuring that out
+
+---
+
+This is a "now page" — a snapshot of what
+I'm focused on at this point in time.
+
+If you want to know what I was doing before,
+that information doesn't exist.
+That's the point.
 
 `,
     },

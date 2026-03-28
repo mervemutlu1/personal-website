@@ -534,6 +534,7 @@ function BlogPostReader({ entry, windowId }: { entry: FileEntry; windowId: strin
 }
 
 function PlainTextReader({ entry }: { entry: FileEntry }) {
+  const isNow = entry.id === 'now';
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#C0C0C0' }}>
       <div
@@ -542,10 +543,10 @@ function PlainTextReader({ entry }: { entry: FileEntry }) {
           flex: 1,
           background: '#FFFFFF',
           fontFamily: "'W95FA', 'Courier New', Courier, monospace",
-          fontSize: 14,
-          lineHeight: 1.9,
+          fontSize: isNow ? 15 : 14,
+          lineHeight: isNow ? 2 : 1.9,
           color: '#000000',
-          padding: '4px 8px',
+          padding: isNow ? '24px 28px' : '4px 8px',
           overflowY: 'auto',
           overflowX: 'auto',
           whiteSpace: 'pre',
