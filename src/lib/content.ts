@@ -228,7 +228,9 @@ It was about learning to direct.
 Knowing what you want — specifically, visually,
 structurally — turns out to be most of the work.
 The prompt I gave Claude Code was detailed because
-I had a clear picture. ==Vague prompts get vague results.==
+I had a clear picture.
+
+>> Vague prompts get vague results.
 
 But directing isn't always clean.
 
@@ -248,20 +250,27 @@ and the live site isn't zero. When the code drifts
 from the design — and it does — you have to decide
 whether to update the design to match the code, or
 push the code back toward the design.
-==That alignment work doesn't disappear. It just moves.==
 
-==If you don't know what good looks like, a faster tool just gets you to bad faster.==
+>> That alignment work doesn't disappear. It just moves.
+
+>> If you don't know what good looks like, a faster tool just gets you to bad faster.
+
 The design judgment still has to come from somewhere.
 AI amplifies taste. It doesn't replace it.
 
 The last thing: iteration is the whole game.
 The first version was rough. Every version after
 was better.
-==Not because the tool got smarter — because I got clearer about what I wanted.==
 
-I don't know how this site works at a code level.
-I know exactly how it should feel.
-For now, that's enough.
+>> Not because the tool got smarter — because I got clearer about what I wanted.
+
+---
+
+>>> I don't know how this site works at a code level.
+
+>>> I know exactly how it should feel.
+
+>>> For now, that's enough.
 
 ---
 

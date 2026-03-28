@@ -51,11 +51,7 @@ function renderInline(text: string, key: string | number) {
     <span key={key}>
       {parts.map((part, i) => {
         if (part.startsWith('==') && part.endsWith('==')) {
-          return (
-            <mark key={i} style={{ background: '#FFF176', color: '#1a1a1a', padding: '0 2px', borderRadius: 1 }}>
-              {part.slice(2, -2)}
-            </mark>
-          );
+          return <React.Fragment key={i}>{part.slice(2, -2)}</React.Fragment>;
         }
         if (part.startsWith('`') && part.endsWith('`')) {
           return (
@@ -326,20 +322,39 @@ function BlogPostReader({ entry, windowId }: { entry: FileEntry; windowId: strin
                 );
               }
 
-              // >> Highlight callout
+              // >>> Style B — bold standalone line (must be before >> check)
+              if (trimmed.startsWith('>>> ')) {
+                const text = trimmed.slice(4);
+                return (
+                  <div key={i} style={{
+                    fontFamily: BODY_FONT,
+                    fontWeight: 700,
+                    fontSize: 17,
+                    color: '#0f0f0f',
+                    display: 'block',
+                    margin: '0.8rem 0',
+                    lineHeight: 1.5,
+                  }}>
+                    {renderInline(text, i)}
+                  </div>
+                );
+              }
+
+              // >> Style A — callout block with left border
               if (trimmed.startsWith('>> ')) {
                 const text = trimmed.slice(3);
                 return (
                   <div key={i} style={{
                     borderLeft: '3px solid #1a1a1a',
-                    background: '#f9f9f8',
+                    background: '#f7f6f1',
                     padding: '12px 20px',
-                    margin: '1.75rem 0',
-                    borderRadius: '0 6px 6px 0',
+                    margin: '1.5rem 0',
+                    borderRadius: '0 4px 4px 0',
                     fontFamily: BODY_FONT,
                     fontStyle: 'italic',
-                    fontSize: 18,
-                    lineHeight: 1.65,
+                    fontWeight: 400,
+                    fontSize: 17,
+                    lineHeight: 1.7,
                     color: '#1a1a1a',
                   }}>
                     {renderInline(text, i)}
