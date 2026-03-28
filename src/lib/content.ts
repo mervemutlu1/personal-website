@@ -158,16 +158,9 @@ extracted from the actual code and documented in Figma.
 
 The components were a different story.
 
-Structure was there. The agent created Button, Window,
-Desktop Icon, Taskbar, Notepad, Dialog — all the right
-pieces. But the Figma craft was rough. Buttons had no
-variants. No hover, pressed, disabled states. No auto
-layout. Each button was a single frame, not a component
-with a property panel you'd actually work from.
-
 ![Blog Post Reader component — created by the agent in Figma](/images/craft/foto.png)
 
-The screens were skeletal. Correct in layout,
+Structure was there. The screens were skeletal. Correct in layout,
 recognizable as the site — but not the kind of frames
 you'd hand to a stakeholder.
 
