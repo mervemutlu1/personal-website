@@ -548,7 +548,7 @@ function PlainTextReader({ entry }: { entry: FileEntry }) {
           color: isModern ? '#1a1a1a' : '#000000',
           padding: isModern ? '24px 28px' : '4px 8px',
           letterSpacing: isModern ? '0.01em' : undefined,
-          fontWeight: isModern ? 400 : undefined,
+          fontWeight: isModern ? 500 : undefined,
           overflowY: 'auto',
           overflowX: 'auto',
           whiteSpace: 'pre',
