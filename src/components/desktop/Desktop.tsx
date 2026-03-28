@@ -75,15 +75,16 @@ export function Desktop() {
 
   const openNotepad = (fileId: string, title: string) => {
     const id = `notepad:${fileId}`;
+    const isPlainText = fileId === 'now' || fileId === 'about';
     openWindow({
       id,
       title: `Notepad — ${title}`,
       app: 'notepad',
       appData: { fileId },
       iconType: 'file-txt',
-      size: { width: 520, height: 380 },
+      size: isPlainText ? { width: 720, height: 500 } : { width: 520, height: 380 },
     });
-    toggleMaximize(id);
+    if (!isPlainText) toggleMaximize(id);
   };
 
   const icons: IconDef[] = [

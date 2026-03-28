@@ -25,13 +25,14 @@ function openFileWindow(
       position: { x: 80, y: 40 },
     });
   } else {
+    const isPlainText = entry.id === 'now' || entry.id === 'about';
     openWindow({
       id: `notepad:${entry.id}`,
       title: `Notepad — ${entry.name}`,
       app: 'notepad',
       appData: { fileId: entry.id },
       iconType: 'file-txt',
-      size: { width: 520, height: 380 },
+      size: isPlainText ? { width: 720, height: 500 } : { width: 520, height: 380 },
     });
   }
 }
