@@ -527,6 +527,43 @@ function BlogPostReader({ entry, windowId }: { entry: FileEntry; windowId: strin
                 );
               }
 
+              // Figure block: <figure>...<img src="..." alt="..."/>...<figcaption>...</figcaption>...</figure>
+              if (trimmed.startsWith('<figure>') && trimmed.includes('</figure>')) {
+                const srcMatch = trimmed.match(/src="([^"]+)"/);
+                const altMatch = trimmed.match(/alt="([^"]+)"/);
+                const captionMatch = trimmed.match(/<figcaption>([\s\S]*?)<\/figcaption>/);
+                const src = srcMatch?.[1] ?? '';
+                const alt = altMatch?.[1] ?? '';
+                const caption = captionMatch?.[1]?.trim() ?? '';
+                return (
+                  <figure key={i} style={{ margin: '1.5rem 0' }}>
+                    <img
+                      src={src}
+                      alt={alt}
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        borderRadius: 8,
+                        display: 'block',
+                        border: '1px solid #e8e8e8',
+                      }}
+                    />
+                    {caption && (
+                      <figcaption style={{
+                        fontSize: 14,
+                        color: '#888',
+                        textAlign: 'center',
+                        marginTop: 8,
+                        fontStyle: 'italic',
+                        fontFamily: 'system-ui, -apple-system, sans-serif',
+                      }}>
+                        {caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                );
+              }
+
               // Image: ![alt](path)
               const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
               if (imgMatch) {
