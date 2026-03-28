@@ -1,0 +1,229 @@
+---
+title: "Figma Just Opened the Canvas to Agents — I Immediately Tested It"
+date: "2026-03-28"
+description: "Three days after I shipped this site, Figma announced something I'd been waiting for. So I tried it on the same project."
+category: "Craft"
+tags: ["ai-design", "figma", "product-design", "use-figma", "agents"]
+readingTime: 6
+---
+
+[figma.com/blog/the-figma-canvas-is-now-open-to-agents](https://www.figma.com/blog/the-figma-canvas-is-now-open-to-agents/)
+
+Three days after I shipped this site, Figma published
+this announcement. I read it mid-scroll and stopped.
+
+The Figma canvas is now open to agents.
+
+Not just readable. Writable.
+
+## THE CONTEXT
+
+When I built this site, I skipped the design phase
+entirely. No design work of my own. I referenced a
+Windows 95 design system from Figma Community, but
+I never opened a blank canvas and designed anything.
+Just descriptions of what I wanted, and Claude Code
+building it.
+
+That worked. But something kept bothering me.
+
+The feedback loop between design intent and built
+output was always text. I'd describe what I wanted,
+Claude Code would update the code, I'd see it was
+still slightly off, I'd describe it again. If I
+could have given the agent a Figma file with my
+design decisions already documented, it would have
+built closer to what I had in mind from the start.
+
+But here's what I thought was the limitation:
+AI agents could read Figma, but they couldn't
+write to it. So the reverse workflow — build first,
+then bring it into Figma — felt impossible.
+
+<Highlight>That's what Figma just changed.</Highlight>
+
+## WHAT FIGMA ANNOUNCED
+
+On March 24, 2026, Figma shipped a new MCP tool:
+`use_figma`.
+
+Previously, Figma's MCP server was read-only for agents.
+Claude Code could look at a Figma file, understand its
+structure, extract tokens and components. But it couldn't
+touch the canvas.
+
+`use_figma` changes that. Agents can now create and
+modify design assets directly in Figma — using your
+actual design system. The canvas is now a shared
+workspace between human and agent.
+
+Alongside `use_figma`, Figma introduced something
+even more interesting: **skills**.
+
+Skills are markdown files that teach agents how your
+team works. Instead of rewriting long prompts every
+time, a skill gives the agent a stable sequence of
+steps, conventions, and standards to follow. They're
+what make the output consistent rather than random.
+
+Nine community-built skills launched with the
+announcement. The one I immediately needed:
+
+**`/figma-generate-library`** — Create new components
+in Figma from a codebase. A packaged workflow that
+tells the agent how to read your code, extract design
+decisions, and build proper Figma components with
+variants, auto layout, and variables.
+
+## WHAT I TRIED
+
+I wanted to test this on a real project. So I used
+this site — a Next.js app built entirely through
+prompts, with no design documentation of my own.
+
+**STEP 1 — Install the skills**
+```bash
+git clone https://github.com/figma/agent-skills
+cp -r agent-skills/skills/figma-generate-library ~/.claude/skills/
+cp -r agent-skills/skills/figma-generate-design ~/.claude/skills/
+cp -r agent-skills/skills/sync-figma-token ~/.claude/skills/
+cp -r agent-skills/skills/apply-design-system ~/.claude/skills/
+```
+
+The Figma MCP server was already connected and
+auto-updated — no separate installation needed.
+
+**STEP 2 — Create a blank Figma file**
+
+I created a blank Figma file as the target.
+
+**STEP 3 — Navigate to the project in Claude Code**
+```bash
+cd ~/personal-website
+claude
+```
+
+Claude Code read the entire codebase — components,
+CSS variables, MDX files, everything.
+
+**STEP 4 — Run the skills in order**
+
+I used four skills in sequence. The prompt I gave
+Claude Code:
+/figma-generate-library
+
+I want to document this project in a Figma file.
+The Figma file is empty and ready. Using the
+use_figma tool, read the codebase and create:
+
+Page 1 — Design Tokens: color swatches, typography
+scale, bevel styles, spacing values
+
+Page 2 — Components: Window, Button, Desktop icon,
+Taskbar, Folder window, Notepad, Dialog — with proper
+variants and auto layout
+
+Page 3 — Screens: 7 key states at 1440x900
+
+Work in phases. After each phase tell me what was
+successfully created and what had limitations.
+
+
+Then `/sync-figma-token` to sync CSS tokens to Figma
+variables, `/figma-generate-design` to build screens
+using the components, and `/apply-design-system` to
+review everything and flag inconsistencies.
+
+## THE HONEST RESULT
+
+The Design Tokens page came out well. Colors,
+typography scale, the four bevel variants (Raised,
+Pressed, Sunken, Window Frame), spacing values — all
+extracted from the actual code and documented in Figma.
+
+<Highlight>For a project with no design documentation,
+having accurate tokens in Figma after a single prompt
+was genuinely surprising.</Highlight>
+
+The components were a different story.
+
+Structure was there. The agent created Button, Window,
+Desktop Icon, Taskbar, Notepad, Dialog — all the right
+pieces. But the Figma craft was rough. Buttons had no
+variants. No hover, pressed, disabled states. No auto
+layout. Each button was a single frame, not a component
+with a property panel you'd actually work from.
+
+![Blog Post Reader component created by the agent in Figma](/images/craft/figma-agents-canvas.png)
+
+The screens were skeletal. Correct in layout,
+recognizable as the site — but not the kind of frames
+you'd hand to a stakeholder.
+
+This matches what others testing the tool have found.
+The agent doesn't automatically detect your design
+system or apply variables unless you explicitly tell
+it to. Every time. Left to its defaults, it hardcodes
+values and skips the component structure you'd expect.
+It's not a bug — it's how agentic tools work.
+
+<Highlight>The agent optimizes for the literal goal
+you gave it, not the implicit standards in your head.</Highlight>
+
+The honest summary: what it created was a starting
+point. Rough, but real. A Figma file I could open,
+edit, and build on top of — which is meaningfully
+faster than starting from a blank canvas.
+
+## WHAT THIS CHANGES FOR PRODUCT DESIGNERS
+
+I'm a product designer at Climateware, working on
+[Carbondeck](https://www.carbondeck.io) — a SaaS
+platform for carbon management. Complex product,
+growing design system, constant pressure to ship
+without losing quality.
+
+Here's where I think this workflow actually helps:
+
+**Token documentation becomes automatic.** When code
+changes, an agent can reflect those changes in the
+Figma file. The `/sync-figma-token` skill exists
+specifically for this.
+
+**Rough explorations cost less.** An agent can
+scaffold a new feature direction in Figma from a
+description. It won't be polished. But it gives you
+something to react to — which is often all you need
+before investing real design time.
+
+**Component auditing gets faster.** The
+`/apply-design-system` skill can flag where designs
+drift from the system. For a platform with dozens of
+components across many screens, that's real time
+saved every sprint.
+
+<Highlight>The design judgment still has to come from
+somewhere. Agents don't know what good looks like for
+your specific product, your users, your constraints.</Highlight>
+
+The version of this tool that teams will actually use
+isn't the raw agent — it's the agent plus skills that
+encode your team's decisions.
+
+But the distance between "I have an idea" and "I have
+something in Figma to show" is getting shorter. For
+a product designer who spends more time than she'd
+like on documentation and handoff work, that's the
+right distance to close.
+
+## WHAT'S NEXT
+
+This is still beta. The teams that figure out how to
+build good skills — that encode their design system,
+their conventions, their standards — are going to
+move significantly faster than those that don't.
+
+I'll keep testing this on real product work.
+When something interesting happens, I'll write it here.
+
+That's what this section of the site is for.
