@@ -23,7 +23,7 @@ function getReadingTime(content: string) {
 }
 
 function getPostTitle(entry: FileEntry) {
-  return entry.name.replace(/\.txt$/i, '');
+  return entry.title ?? entry.name.replace(/\.txt$/i, '');
 }
 
 /** Everything after the first standalone `---` line is the body */

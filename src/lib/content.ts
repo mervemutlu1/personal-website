@@ -15,6 +15,7 @@ export interface FileEntry {
   content?: string;
   date?: string;
   description?: string;
+  title?: string;
 }
 
 export const CONTENT: FileEntry = {
@@ -34,6 +35,7 @@ export const CONTENT: FileEntry = {
           name: 'how-i-built-this-without-writing-code.txt',
           type: 'file',
           icon: 'file-craft',
+          title: 'How I Built This Without Writing a Single Line of Code',
           date: 'Mar 2026',
           description: 'A Windows 95 personal site, built with AI tools, zero coding experience, and one very long prompt.',
           content: `HOW I BUILT THIS WITHOUT WRITING A SINGLE LINE OF CODE
