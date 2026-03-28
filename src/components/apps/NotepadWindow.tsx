@@ -44,12 +44,21 @@ function extractHeadings(body: string): string[] {
 
 /** Render inline text with ==highlight==, `code`, and URL support */
 function renderInline(text: string, key: string | number) {
-  const pattern = /(==.+?==|`[^`]+`|https?:\/\/[^\s)]+|(?<![a-zA-Z])figma\.com\/[^\s)]+)/g;
+  const pattern = /(\*\*[^*]+\*\*|==.+?==|`[^`]+`|\[[^\]]+\]\([^)]+\)|https?:\/\/[^\s)]+|(?<![a-zA-Z])figma\.com\/[^\s)]+)/g;
   const parts = text.split(pattern);
+
+  const linkStyle = {
+    color: '#1558d6',
+    textDecoration: 'underline',
+    textDecorationColor: 'rgba(21, 88, 214, 0.4)',
+  };
 
   return (
     <span key={key}>
       {parts.map((part, i) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={i}>{part.slice(2, -2)}</strong>;
+        }
         if (part.startsWith('==') && part.endsWith('==')) {
           return <React.Fragment key={i}>{part.slice(2, -2)}</React.Fragment>;
         }
@@ -67,6 +76,17 @@ function renderInline(text: string, key: string | number) {
             </code>
           );
         }
+        const mdLink = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+        if (mdLink) {
+          return (
+            <a key={i} href={mdLink[2]} target="_blank" rel="noopener noreferrer" style={linkStyle}
+              onMouseEnter={(e) => (e.currentTarget.style.textDecorationColor = '#1558d6')}
+              onMouseLeave={(e) => (e.currentTarget.style.textDecorationColor = 'rgba(21, 88, 214, 0.4)')}
+            >
+              {mdLink[1]}
+            </a>
+          );
+        }
         if (part.startsWith('https://') || part.startsWith('figma.com/')) {
           const href = part.startsWith('https://') ? part : `https://${part}`;
           return (
@@ -75,11 +95,7 @@ function renderInline(text: string, key: string | number) {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                color: '#1558d6',
-                textDecoration: 'underline',
-                textDecorationColor: 'rgba(21, 88, 214, 0.4)',
-              }}
+              style={linkStyle}
               onMouseEnter={(e) => (e.currentTarget.style.textDecorationColor = '#1558d6')}
               onMouseLeave={(e) => (e.currentTarget.style.textDecorationColor = 'rgba(21, 88, 214, 0.4)')}
             >
@@ -508,6 +524,26 @@ function BlogPostReader({ entry, windowId }: { entry: FileEntry; windowId: strin
                   }}>
                     {renderInline(trimmed, 'quote')}
                   </blockquote>
+                );
+              }
+
+              // Image: ![alt](path)
+              const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+              if (imgMatch) {
+                return (
+                  <img
+                    key={i}
+                    src={imgMatch[2]}
+                    alt={imgMatch[1]}
+                    style={{
+                      width: '100%',
+                      height: 'auto',
+                      borderRadius: 8,
+                      margin: '1.5rem 0',
+                      display: 'block',
+                      border: '1px solid #e8e8e8',
+                    }}
+                  />
                 );
               }
 
