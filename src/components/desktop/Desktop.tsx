@@ -128,6 +128,13 @@ export function Desktop() {
       onOpen: () => openNotepad('about-me', 'About Me.txt'),
     },
     {
+      id: 'icon:medium',
+      label: 'Previous Blogs',
+      iconType: 'browser',
+      defaultPosition: { x: 18, y: 408 },
+      onOpen: () => window.open('https://medium.com/@mrvyilmaz', '_blank'),
+    },
+    {
       id: 'icon:notes',
       label: 'My Notes',
       iconType: 'folder',

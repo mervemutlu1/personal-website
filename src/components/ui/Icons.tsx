@@ -178,6 +178,41 @@ export function IconFileGrowth({ size = 32 }: IconProps) {
   );
 }
 
+export function IconBrowser({ size = 32 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" shapeRendering="crispEdges">
+      {/* Blue "e" letter */}
+      {/* Top bar */}
+      <rect x="7" y="6" width="16" height="3" fill="#1144BB" />
+      {/* Left vertical */}
+      <rect x="5" y="6" width="2" height="20" fill="#1144BB" />
+      {/* Upper-right arc segment */}
+      <rect x="21" y="9" width="3" height="5" fill="#1144BB" />
+      {/* Middle bar */}
+      <rect x="7" y="14" width="13" height="3" fill="#1144BB" />
+      {/* Lower-right arc segment */}
+      <rect x="21" y="18" width="3" height="5" fill="#1144BB" />
+      {/* Bottom bar */}
+      <rect x="7" y="23" width="16" height="3" fill="#1144BB" />
+      {/* Inner highlight */}
+      <rect x="5" y="6" width="1" height="20" fill="#4477EE" />
+      <rect x="7" y="6" width="16" height="1" fill="#4477EE" />
+
+      {/* Yellow orbit ring — diagonal, top-right to bottom-left */}
+      {/* Top-right arm */}
+      <rect x="19" y="1" width="5" height="2" fill="#FFBB00" />
+      <rect x="23" y="3" width="4" height="2" fill="#FFBB00" />
+      <rect x="26" y="5" width="3" height="3" fill="#FFBB00" />
+      <rect x="27" y="8" width="2" height="4" fill="#FFBB00" />
+      {/* Bottom-left arm */}
+      <rect x="3" y="19" width="2" height="4" fill="#FFBB00" />
+      <rect x="2" y="23" width="3" height="3" fill="#FFBB00" />
+      <rect x="4" y="26" width="4" height="2" fill="#FFBB00" />
+      <rect x="8" y="28" width="5" height="2" fill="#FFBB00" />
+    </svg>
+  );
+}
+
 export function IconWindows({ size = 16 }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shapeRendering="crispEdges">
@@ -198,6 +233,7 @@ export function getIconComponent(iconType: string, size = 32) {
     case 'file-txt': return <IconFileTxt size={size} />;
     case 'file-craft': return <IconFileCraft size={size} />;
     case 'file-growth': return <IconFileGrowth size={size} />;
+    case 'browser': return <IconBrowser size={size} />;
     default: return <IconFileTxt size={size} />;
   }
 }
