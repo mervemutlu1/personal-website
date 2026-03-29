@@ -35,103 +35,12 @@ export const CONTENT: FileEntry = {
           name: 'merve.txt',
           type: 'file',
           icon: 'file-txt',
-          content: `==============================
-  MERVE — README.TXT
-==============================
-
-Hi. I'm Merve.
-
-I'm a product designer with 3+ years of experience.
-I built this with AI as both a playground and a notebook.
-As I keep learning and experimenting, I use this space
-to document what I discover.
-
-The Windows 95 aesthetic isn't ironic. It's a frame.
-
-I'm watching AI reshape how product designers work —
-Figma MCP, Claude Code, Cursor — tools that turn a
-description into a running interface. This site is
-where I take notes on that shift.
-
-The retro shell, the modern content.
-The contrast is the point.
-
-Also, it was a fun weekend project.
-
-==============================
-WHAT I DO
-==============================
-
-Product design — I make digital products
-  easier to use for their actual users.
-
-Experiments — I build things to learn.
-  Most of them don't ship. That's fine.
-
-Writing — About design, systems,
-  and things I'm noticing.
-
-==============================
-CURRENTLY
-==============================
-
-Working at:  Climateware, as a product designer
-Working on:  this site, actually
-Learning:    using AI to design, build, and ship faster
-
-==============================
-CONTACT
-==============================
-
-Find me wherever you found this link.
-Or don't. That's okay too.
-
-==============================
-`,
         },
         {
           id: 'recently',
           name: 'Recently.txt',
           type: 'file',
           icon: 'file-txt',
-          content: `=== NOW ===
-Last updated: March 2026
-
----
-
-Currently building:
-  → This personal site (you are inside it right now)
-  → A workflow for turning daily work
-     into something worth publishing
-
-Currently learning:
-  → How to use AI in day-to-day product design —
-     faster prototypes, better design decisions
-  → Prompting for design systems: letting AI
-     help structure components and tokens
-  → Getting real feedback from user research
-     sessions faster with AI-assisted synthesis
-  → How to document the process while
-     living it, not after
-
-Currently obsessing over:
-  → The gap between design and code closing —
-     and what that means for how I work
-  → What it looks like when a product designer
-     learns to ship, not just spec
-  → Whether AI makes design better or just faster —
-     I'm still figuring that out
-
----
-
-This is a "now page" — a snapshot of what
-I'm focused on at this point in time.
-
-If you want to know what I was doing before,
-that information doesn't exist.
-That's the point.
-
-`,
         },
       ],
     },

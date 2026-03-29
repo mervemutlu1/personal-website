@@ -606,8 +606,24 @@ function BlogPostReader({ entry, windowId }: { entry: FileEntry; windowId: strin
   );
 }
 
+const MDX_IDS = new Set(['recently', 'about-me']);
+
 function PlainTextReader({ entry }: { entry: FileEntry }) {
   const isModern = entry.id === 'recently' || entry.id === 'about-me';
+  const [mdxContent, setMdxContent] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!MDX_IDS.has(entry.id)) return;
+    fetch(`/api/content?id=${entry.id}`)
+      .then((r) => r.text())
+      .then(setMdxContent)
+      .catch(() => setMdxContent(null));
+  }, [entry.id]);
+
+  const displayContent = MDX_IDS.has(entry.id)
+    ? (mdxContent ?? 'Loading…')
+    : (entry.content ?? '(Empty file)');
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#C0C0C0' }}>
       <div
@@ -616,7 +632,7 @@ function PlainTextReader({ entry }: { entry: FileEntry }) {
           flex: 1,
           background: '#FFFFFF',
           fontFamily: isModern ? "'IBM Plex Mono', monospace" : "'W95FA', 'Courier New', Courier, monospace",
-          fontSize: isModern ? 16 : 14,
+          fontSize: isModern ? 14 : 14,
           lineHeight: isModern ? 1.9 : 1.9,
           color: isModern ? '#1a1a1a' : '#000000',
           padding: isModern ? '24px 28px' : '4px 8px',
@@ -634,7 +650,7 @@ function PlainTextReader({ entry }: { entry: FileEntry }) {
           outline: 'none',
         }}
       >
-        {entry.content ?? '(Empty file)'}
+        {displayContent}
       </div>
     </div>
   );
