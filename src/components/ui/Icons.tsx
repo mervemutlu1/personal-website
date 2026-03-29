@@ -233,7 +233,7 @@ export function getIconComponent(iconType: string, size = 32) {
     case 'file-txt': return <IconFileTxt size={size} />;
     case 'file-craft': return <IconFileCraft size={size} />;
     case 'file-growth': return <IconFileGrowth size={size} />;
-    case 'browser': return <IconBrowser size={size} />;
+    case 'browser': return <img src="/ie.png" width={size} height={size} style={{ imageRendering: 'pixelated' }} alt="Internet Explorer" />;
     default: return <IconFileTxt size={size} />;
   }
 }
