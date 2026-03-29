@@ -25,7 +25,7 @@ function openFileWindow(
       position: { x: 80, y: 40 },
     });
   } else {
-    const isPlainText = entry.id === 'now' || entry.id === 'about';
+    const isPlainText = entry.id === 'recently' || entry.id === 'about-me';
     openWindow({
       id: `notepad:${entry.id}`,
       title: `Notepad — ${entry.name}`,

@@ -75,7 +75,7 @@ export function Desktop() {
 
   const openNotepad = (fileId: string, title: string) => {
     const id = `notepad:${fileId}`;
-    const isPlainText = fileId === 'now' || fileId === 'about';
+    const isPlainText = fileId === 'recently' || fileId === 'about-me';
     openWindow({
       id,
       title: `Notepad — ${title}`,
@@ -122,10 +122,10 @@ export function Desktop() {
     },
     {
       id: 'icon:about',
-      label: 'About.txt',
+      label: 'About Me.txt',
       iconType: 'file-txt',
       defaultPosition: { x: 18, y: 210 },
-      onOpen: () => openNotepad('about', 'About.txt'),
+      onOpen: () => openNotepad('about-me', 'About Me.txt'),
     },
     {
       id: 'icon:notes',

@@ -701,8 +701,8 @@ Tags: optimism / psychology / happiness / mindset
       ],
     },
     {
-      id: 'now',
-      name: 'Now.txt',
+      id: 'recently',
+      name: 'Recently.txt',
       type: 'file',
       icon: 'file-txt',
       content: `=== NOW ===
@@ -745,8 +745,8 @@ That's the point.
 `,
     },
     {
-      id: 'about',
-      name: 'About.txt',
+      id: 'about-me',
+      name: 'About Me.txt',
       type: 'file',
       icon: 'file-txt',
       content: `==============================

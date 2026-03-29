@@ -607,7 +607,7 @@ function BlogPostReader({ entry, windowId }: { entry: FileEntry; windowId: strin
 }
 
 function PlainTextReader({ entry }: { entry: FileEntry }) {
-  const isModern = entry.id === 'now' || entry.id === 'about';
+  const isModern = entry.id === 'recently' || entry.id === 'about-me';
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#C0C0C0' }}>
       <div

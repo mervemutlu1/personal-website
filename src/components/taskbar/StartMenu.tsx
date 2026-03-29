@@ -40,13 +40,13 @@ export function StartMenu({ onClose }: StartMenuProps) {
     },
     {
       icon: '📄',
-      label: 'Now',
-      action: () => open('notepad:now', 'Notepad — Now.txt', 'notepad', { fileId: 'now' }, { width: 480, height: 360 }),
+      label: 'Recently',
+      action: () => open('notepad:recently', 'Notepad — Recently.txt', 'notepad', { fileId: 'recently' }, { width: 480, height: 360 }),
     },
     {
       icon: '📄',
-      label: 'About',
-      action: () => open('notepad:about', 'Notepad — About.txt', 'notepad', { fileId: 'about' }, { width: 480, height: 380 }),
+      label: 'About Me',
+      action: () => open('notepad:about-me', 'Notepad — About Me.txt', 'notepad', { fileId: 'about-me' }, { width: 480, height: 380 }),
       separator: true,
     },
     {
