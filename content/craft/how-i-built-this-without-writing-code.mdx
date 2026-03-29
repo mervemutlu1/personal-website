@@ -15,7 +15,7 @@ I'm a product designer. I know how interfaces should feel.
 I know what makes a button wrong. I do not know what a
 useEffect hook is, and until recently, I did not need to.
 
-This site exists anyway. Here's how and why.
+This site exists anyway. Here's how — and why.
 
 ---
 
@@ -35,7 +35,7 @@ inside it is the point.
 
 In the pages that follow, you'll find how I built
 and shipped this site using Figma, Claude Code, and
-Vercel without designing a single frame or writing
+Vercel — without designing a single frame or writing
 a single line of code. Just a clear picture of what
 I wanted, and the right tools to describe it.
 
@@ -44,7 +44,7 @@ It was about learning to direct.
 
 ---
 
-## STEP 1: FINDING THE DESIGN SYSTEM
+## STEP 1 — FINDING THE DESIGN SYSTEM
 
 The first problem: I'm not building a Windows 95 design
 system from scratch. That would take weeks and a very
@@ -53,24 +53,24 @@ different skill set.
 So I looked in Figma Community. Someone had already done it.
 
 → Windows 95 Design System (Community)
-  figma.com/community/file/WqRM3ioze2H6GhABxv7uWH
+→ https://figma.com/community/file/WqRM3ioze2H6GhABxv7uWH
 
 Every component. Every color. Every beveled border.
 The exact teal. The exact grey. The pixel font (W95FA
 by FontsArena). All of it, already built.
 
-I didn't design this site. I referenced it.
+>> I didn't design this site. I referenced it.
 
 ---
 
-## STEP 2: CONNECTING FIGMA TO CLAUDE CODE VIA MCP
+## STEP 2 — CONNECTING FIGMA TO CLAUDE CODE VIA MCP
 
 <ToolFlow />
 
 This is where it gets interesting.
 
 MCP stands for Model Context Protocol. It's a way to
-connect external tools like Figma directly to
+connect external tools — like Figma — directly to
 Claude Code, so Claude can see your design files
 while it writes the code.
 
@@ -83,7 +83,7 @@ Setting up the Figma MCP:
 
 Once connected, Claude Code can look at any Figma frame
 and use it as a reference while building. Not just a
-screenshot. It reads the actual component structure,
+screenshot — it reads the actual component structure,
 color values, spacing, and layer names.
 
 This meant I could say: "Use this design system as your
@@ -92,7 +92,7 @@ Claude would actually understand what it was looking at.
 
 ---
 
-## STEP 3: THE PROMPT
+## STEP 3 — THE PROMPT
 
 I didn't open a code editor. I opened Claude (claude.ai)
 and described what I wanted. We went back and forth.
@@ -100,73 +100,26 @@ I explained the structure, the content categories,
 the window behavior, the aesthetic rules.
 
 Claude turned all of that into a single, detailed prompt
-to give to Claude Code. Here it is:
-[PROMPT BLOCK START]
-Claude Code Prompt: Windows 95 Personal Website
-Project Overview
-Build a fully functional personal website that looks and
-feels exactly like a Windows 95 desktop running in a browser.
-This is not a novelty gimmick. It is the actual UI paradigm:
-the entire website IS the desktop. Every piece of content lives
-inside draggable, resizable windows. Navigation happens through
-double-clicking icons, opening folders, and interacting with a
-Start menu and taskbar.
-The site serves as a personal knowledge garden and creative
-portfolio, a place to share AI/design/vibe-coding experiments,
-self-improvement writing, and a "now" page. The aesthetic must
-be pixel-perfect faithful to Windows 95: beveled borders, teal
-desktop, system fonts, classic iconography.
-Tech Stack
-
-Framework: Next.js 14+ with App Router
-Language: TypeScript
-Styling: CSS Modules (override with raw CSS for Win95 details)
-Content: MDX files for blog posts/notes
-No external UI libraries. Build every Win95 component from scratch
-Deployment target: Vercel
-
-Visual Design System: Windows 95 Faithful
-Reference: Windows 95 Design System (W95FA font by FontsArena)
-Typography:
-
-System font: "W95FA", the authentic pixelated Windows 95 font
-Fallback: "Fixedsys", "Courier New", monospace
-Font size: 11px body, 12px titles
-No anti-aliasing: font-smooth: never
-
-Color Palette:
-
-Desktop background:  #008080
-Window background:   #C0C0C0
-Window title active: linear-gradient(#000080 → #1084d0)
-Button highlight:    #FFFFFF (top/left bevel)
-Button shadow:       #808080 (bottom/right bevel)
-Selected bg:         #000080
-
-[... full prompt continues with window management system,
-content architecture, component list, and build order]
-[PROMPT BLOCK END]
-
-I gave this to Claude Code in the terminal.
-It started writing. I watched.
+to give to Claude Code. I gave it to Claude Code
+in the terminal. It started writing. I watched.
 
 ---
 
-## STEP 4: CLAUDE CODE SKILLS
+## STEP 4 — CLAUDE CODE SKILLS
 
 Before running the prompt, I installed two skills into
-Claude Code, think of them as permanent instructions
+Claude Code — think of them as permanent instructions
 that load every session:
 
-  → frontend-design (by Anthropic)
-     Tells Claude to make distinctive UI decisions
-     instead of generic AI defaults. No Inter font.
-     No purple gradients. Commit to an aesthetic.
+→ `frontend-design` (by Anthropic)
+  Tells Claude to make distinctive UI decisions
+  instead of generic AI defaults. No Inter font.
+  No purple gradients. Commit to an aesthetic.
 
-  → web-design-guidelines (by Vercel)
-     100+ rules for accessibility, UX best practices,
-     and interface quality. Runs as a background check
-     on everything Claude builds.
+→ `web-design-guidelines` (by Vercel)
+  100+ rules for accessibility, UX best practices,
+  and interface quality. Runs as a background check
+  on everything Claude builds.
 
 Installing them took about 2 minutes:
 
@@ -183,21 +136,23 @@ Every project. Every session.
 
 ---
 
-## STEP 5: ITERATION
+## STEP 5 — ITERATION
 
 Claude Code built the first version in one session.
 It wasn't perfect. Nothing is.
 
-I kept a second window open, claude.ai, this conversation,
-and used it to translate what I wanted into prompts for
-Claude Code. A feedback loop:
+I kept a second window open — claude.ai — and used it
+to translate what I wanted into prompts for Claude Code.
+A feedback loop:
 
   See something off → describe it here → get a prompt →
   paste into Claude Code → see the change → repeat
 
-No debugging. No Stack Overflow. No understanding what
-a React component actually is at a structural level.
-Just describing what I wanted and refining.
+>> No debugging. No Stack Overflow.
+
+No understanding what a React component actually is
+at a structural level. Just describing what I wanted
+and refining.
 
 Some things I iterated on:
   → Icon sizes (too small at first, bumped to 48px)
@@ -208,10 +163,10 @@ Some things I iterated on:
 
 ---
 
-## STEP 6: DEPLOYING TO VERCEL
+## STEP 6 — DEPLOYING TO VERCEL
 
 Getting a Next.js site live on Vercel is surprisingly
-straightforward, even if you've never deployed anything.
+straightforward — even if you've never deployed anything.
 
   1. Push your project to GitHub
      (Claude Code handles the git commands if you ask)
@@ -239,8 +194,8 @@ The whole process took about 10 minutes the first time.
 This wasn't about learning to code.
 It was about learning to direct.
 
-Knowing what you want, specifically, visually,
-and structurally, turns out to be most of the work.
+Knowing what you want — specifically, visually,
+structurally — turns out to be most of the work.
 The prompt I gave Claude Code was detailed because
 I had a clear picture.
 
@@ -249,19 +204,19 @@ I had a clear picture.
 But directing isn't always clean.
 
 I iterated more than I expected. Some things Claude
-Code built were almost right, close enough that I
+Code built were almost right — close enough that I
 accepted them, then changed my mind three versions
 later. Some things broke when I touched them. A font
 size change would fix one thing and quietly break
 another. That's not a flaw in the tool. That's what
 building anything actually feels like.
 
-The Figma MCP connection changed something for me.
-Design and code stopped feeling like separate phases.
+The Figma MCP connection changed something for me —
+design and code stopped feeling like separate phases.
 I could point at a component and say "make it look
 like that" and it would. But the gap between Figma
 and the live site isn't zero. When the code drifts
-from the design, and it does, you have to decide
+from the design — and it does — you have to decide
 whether to update the design to match the code, or
 push the code back toward the design.
 
@@ -276,7 +231,7 @@ The last thing: iteration is the whole game.
 The first version was rough. Every version after
 was better.
 
->> Not because the tool got smarter. Because I got clearer about what I wanted.
+>> Not because the tool got smarter — because I got clearer about what I wanted.
 
 ---
 
