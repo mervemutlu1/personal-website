@@ -813,3 +813,13 @@ Tags: optimism / psychology / happiness / mindset
     },
   ],
 };
+export function findEntry(id: string, node: FileEntry = CONTENT): FileEntry | null {
+  if (node.id === id) return node;
+  if (node.children) {
+    for (const child of node.children) {
+      const found = findEntry(id, child);
+      if (found) return found;
+    }
+  }
+  return null;
+}
