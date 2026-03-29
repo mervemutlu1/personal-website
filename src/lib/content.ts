@@ -701,55 +701,17 @@ Tags: optimism / psychology / happiness / mindset
       ],
     },
     {
-      id: 'recently',
-      name: 'Recently.txt',
-      type: 'file',
-      icon: 'file-txt',
-      content: `=== NOW ===
-Last updated: March 2026
-
----
-
-Currently building:
-  → This personal site (you are inside it right now)
-  → A workflow for turning daily work
-     into something worth publishing
-
-Currently learning:
-  → How to use AI in day-to-day product design —
-     faster prototypes, better design decisions
-  → Prompting for design systems: letting AI
-     help structure components and tokens
-  → Getting real feedback from user research
-     sessions faster with AI-assisted synthesis
-  → How to document the process while
-     living it, not after
-
-Currently obsessing over:
-  → The gap between design and code closing —
-     and what that means for how I work
-  → What it looks like when a product designer
-     learns to ship, not just spec
-  → Whether AI makes design better or just faster —
-     I'm still figuring that out
-
----
-
-This is a "now page" — a snapshot of what
-I'm focused on at this point in time.
-
-If you want to know what I was doing before,
-that information doesn't exist.
-That's the point.
-
-`,
-    },
-    {
-      id: 'about-me',
-      name: 'About Me.txt',
-      type: 'file',
-      icon: 'file-txt',
-      content: `==============================
+      id: 'about',
+      name: 'About',
+      type: 'folder',
+      icon: 'folder',
+      children: [
+        {
+          id: 'about-me',
+          name: 'merve.txt',
+          type: 'file',
+          icon: 'file-txt',
+          content: `==============================
   MERVE — README.TXT
 ==============================
 
@@ -802,6 +764,52 @@ Or don't. That's okay too.
 
 ==============================
 `,
+        },
+        {
+          id: 'recently',
+          name: 'Recently.txt',
+          type: 'file',
+          icon: 'file-txt',
+          content: `=== NOW ===
+Last updated: March 2026
+
+---
+
+Currently building:
+  → This personal site (you are inside it right now)
+  → A workflow for turning daily work
+     into something worth publishing
+
+Currently learning:
+  → How to use AI in day-to-day product design —
+     faster prototypes, better design decisions
+  → Prompting for design systems: letting AI
+     help structure components and tokens
+  → Getting real feedback from user research
+     sessions faster with AI-assisted synthesis
+  → How to document the process while
+     living it, not after
+
+Currently obsessing over:
+  → The gap between design and code closing —
+     and what that means for how I work
+  → What it looks like when a product designer
+     learns to ship, not just spec
+  → Whether AI makes design better or just faster —
+     I'm still figuring that out
+
+---
+
+This is a "now page" — a snapshot of what
+I'm focused on at this point in time.
+
+If you want to know what I was doing before,
+that information doesn't exist.
+That's the point.
+
+`,
+        },
+      ],
     },
   ],
 };
